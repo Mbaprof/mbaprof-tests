@@ -197,3 +197,43 @@ export function getTestForResultsSummary(testId: string) {
     { revalidate: 120, tags: ["tests"] }
   )();
 }
+
+// The question paper a student sits (no correct-answer flags), cached like the
+// other test data so opening an exam does not re-read ~200 questions from the
+// database every time.
+export function getTestForExam(testId: string) {
+  return unstable_cache(
+    () =>
+      prisma.test.findUnique({
+        where: { id: testId },
+        select: {
+          title: true,
+          targetExam: true,
+          durationMinutes: true,
+          sections: {
+            orderBy: { order: "asc" },
+            select: {
+              id: true,
+              name: true,
+              questions: {
+                orderBy: { order: "asc" },
+                select: {
+                  id: true,
+                  text: true,
+                  imageUrl: true,
+                  marks: true,
+                  passage: { select: { id: true, title: true, text: true } },
+                  options: {
+                    orderBy: { order: "asc" },
+                    select: { id: true, text: true, imageUrl: true },
+                  },
+                },
+              },
+            },
+          },
+        },
+      }),
+    ["test-for-exam", testId],
+    { revalidate: 120, tags: ["tests"] }
+  )();
+}

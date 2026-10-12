@@ -10,6 +10,7 @@ export function Logo({ className = "" }: { className?: string }) {
         width={1794}
         height={372}
         className="h-8 w-auto object-contain"
+        sizes="160px"
         priority
       />
     </Link>

@@ -3,6 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { negativeRatioFor } from "@/lib/marking";
 import { prisma } from "@/lib/prisma";
+import { getTestForExam } from "@/lib/test-stats";
 
 import { submitAttempt } from "./actions";
 import { ExamRunner, type ExamData } from "./exam-runner";
@@ -28,35 +29,15 @@ export default async function ExamPage({
     redirect(`/student/attempts/${attemptId}/results`);
   }
 
-  const test = await prisma.test.findUnique({
-    where: { id: attempt.testId },
-    select: {
-      title: true,
-      targetExam: true,
-      durationMinutes: true,
-      sections: {
-        orderBy: { order: "asc" },
-        select: {
-          id: true,
-          name: true,
-          questions: {
-            orderBy: { order: "asc" },
-            select: {
-              id: true,
-              text: true,
-              imageUrl: true,
-              marks: true,
-              passage: { select: { id: true, title: true, text: true } },
-              options: {
-                orderBy: { order: "asc" },
-                select: { id: true, text: true, imageUrl: true },
-              },
-            },
-          },
-        },
-      },
-    },
-  });
+  // The paper is cached (it only changes when a test is edited) and the
+  // student's saved answers are read alongside it - one round trip, not three.
+  const [test, existingAnswers] = await Promise.all([
+    getTestForExam(attempt.testId),
+    prisma.answer.findMany({
+      where: { attemptId },
+      select: { questionId: true, selectedOptionId: true, timeSpentSeconds: true },
+    }),
+  ]);
 
   if (!test) notFound();
 
@@ -65,11 +46,6 @@ export default async function ExamPage({
     const { redirectTo } = await submitAttempt(attemptId);
     redirect(redirectTo);
   }
-
-  const existingAnswers = await prisma.answer.findMany({
-    where: { attemptId },
-    select: { questionId: true, selectedOptionId: true, timeSpentSeconds: true },
-  });
 
   const examData: ExamData = {
     attemptId,

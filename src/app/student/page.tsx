@@ -12,21 +12,23 @@ export default async function StudentDashboardPage() {
   const session = await auth();
   const studentId = session!.user.id;
 
-  const [student, tests] = await Promise.all([
+  // One parallel step (each database round trip is slow from the host, so
+  // sequential queries add up): the student's own attempts are filtered to
+  // their exam's tests in memory below.
+  const [student, tests, attempts] = await Promise.all([
     prisma.user.findUnique({
       where: { id: studentId },
       select: { targetExam: true },
     }),
     getPublishedTests(),
+    prisma.testAttempt.findMany({
+      where: { studentId },
+      orderBy: { startedAt: "desc" },
+    }),
   ]);
   const myExam = student?.targetExam ?? null;
 
   const myExamTests = myExam ? tests.filter((t) => t.targetExam === myExam) : tests;
-
-  const attempts = await prisma.testAttempt.findMany({
-    where: { studentId, testId: { in: myExamTests.map((t) => t.id) } },
-    orderBy: { startedAt: "desc" },
-  });
 
   return (
     <div>
