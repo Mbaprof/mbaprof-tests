@@ -44,7 +44,6 @@ export function SiteFooter() {
 
           <div>
             <p className="text-sm font-semibold text-white">Contact</p>
-            {/* TODO: confirm the real support email for MBAProf Tests — this is a placeholder */}
             <p className="mt-3 text-sm text-white/60">
               <a href="mailto:info@mbaprof.in" className="hover:text-brand-gold">
                 info@mbaprof.in
