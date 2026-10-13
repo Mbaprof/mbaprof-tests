@@ -80,6 +80,28 @@ export function SiteHeaderClient({ session }: { session: SessionInfo }) {
                     </svg>
                     Dashboard
                   </Link>
+                  {session.role === "ADMIN" && (
+                    <Link
+                      href="/admin"
+                      className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-white/90 transition-colors hover:bg-white/10 hover:text-white"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M12 3l7.5 3v5.25c0 4.5-3.2 8.2-7.5 9.75-4.3-1.55-7.5-5.25-7.5-9.75V6L12 3Z"
+                        />
+                      </svg>
+                      Admin panel
+                    </Link>
+                  )}
                   {session.role !== "ADMIN" && (
                     <Link
                       href="/student/profile"
@@ -258,6 +280,14 @@ export function SiteHeaderClient({ session }: { session: SessionInfo }) {
                 >
                   Dashboard
                 </Link>
+                {session.role === "ADMIN" && (
+                  <Link
+                    href="/admin"
+                    className="text-sm font-medium text-brand-navy"
+                  >
+                    Admin panel
+                  </Link>
+                )}
                 {session.role !== "ADMIN" && (
                   <Link
                     href="/student/profile"

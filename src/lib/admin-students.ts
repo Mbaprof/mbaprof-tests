@@ -1,0 +1,76 @@
+import type { Prisma, PrismaClient } from "@prisma/client";
+
+import { MBA_ENTRANCE_EXAMS } from "@/lib/validation";
+
+export const NOT_SET = "Not set";
+export const PAGE_SIZE = 25;
+
+export type StudentFilters = {
+  q: string;
+  exam: string; // "" = all, NOT_SET = students without an exam, else an exam name
+  page: number;
+};
+
+type Params = Record<string, string | string[] | undefined>;
+
+const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) ?? "";
+
+// Reads and sanitises the list's query-string filters. Unknown exam names are
+// ignored rather than trusted.
+export function parseStudentFilters(params: Params): StudentFilters {
+  const q = first(params.q).trim().slice(0, 100);
+  const examRaw = first(params.exam);
+  const exam =
+    examRaw === NOT_SET || (MBA_ENTRANCE_EXAMS as readonly string[]).includes(examRaw)
+      ? examRaw
+      : "";
+  const page = Math.max(1, Math.floor(Number(first(params.page))) || 1);
+  return { q, exam, page };
+}
+
+export function studentWhere({ q, exam }: StudentFilters): Prisma.UserWhereInput {
+  const where: Prisma.UserWhereInput = { role: "STUDENT" };
+  if (exam === NOT_SET) where.targetExam = null;
+  else if (exam) where.targetExam = exam;
+  if (q) {
+    where.OR = [
+      { name: { contains: q, mode: "insensitive" } },
+      { email: { contains: q, mode: "insensitive" } },
+      { phone: { contains: q } },
+      { college: { contains: q, mode: "insensitive" } },
+      { course: { contains: q, mode: "insensitive" } },
+    ];
+  }
+  return where;
+}
+
+export const studentSelect = {
+  id: true,
+  name: true,
+  email: true,
+  phone: true,
+  college: true,
+  course: true,
+  targetExam: true,
+  createdAt: true,
+  _count: { select: { attempts: true } },
+  attempts: {
+    orderBy: { startedAt: "desc" },
+    take: 1,
+    select: { startedAt: true },
+  },
+} satisfies Prisma.UserSelect;
+
+// Submitted-attempt counts for a set of students, in one query.
+export async function submittedCounts(
+  db: Pick<PrismaClient, "testAttempt">,
+  studentIds: string[]
+) {
+  if (studentIds.length === 0) return new Map<string, number>();
+  const rows = await db.testAttempt.groupBy({
+    by: ["studentId"],
+    where: { studentId: { in: studentIds }, submittedAt: { not: null } },
+    _count: { _all: true },
+  });
+  return new Map(rows.map((r) => [r.studentId, r._count._all]));
+}

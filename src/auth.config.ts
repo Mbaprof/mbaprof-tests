@@ -30,6 +30,7 @@ export const authConfig = {
 
       if (pathname.startsWith("/student")) return isLoggedIn;
       if (pathname.startsWith("/exam")) return isLoggedIn;
+      if (pathname.startsWith("/admin")) return isLoggedIn;
       return true;
     },
   },

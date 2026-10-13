@@ -22,6 +22,14 @@ export default async function StudentLayout({
             <span className="hidden text-sm text-brand-ink/60 sm:inline">
               {session.user.name}
             </span>
+            {session.user.role === "ADMIN" && (
+              <Link
+                href="/admin"
+                className="text-sm font-medium text-brand-navy hover:text-brand-gold"
+              >
+                Admin panel
+              </Link>
+            )}
             <Link
               href="/student/profile"
               className="text-sm font-medium text-brand-navy hover:text-brand-gold"

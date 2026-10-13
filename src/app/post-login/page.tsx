@@ -9,5 +9,5 @@ export default async function PostLoginPage() {
     redirect("/login");
   }
 
-  redirect("/student");
+  redirect(session.user.role === "ADMIN" ? "/admin" : "/student");
 }
