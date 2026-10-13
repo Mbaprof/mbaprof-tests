@@ -72,12 +72,20 @@ export default async function AdminOverviewPage() {
             How many students have joined and how they are using the tests.
           </p>
         </div>
-        <Link
-          href="/admin/students"
-          className="whitespace-nowrap rounded-md bg-brand-navy px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-navy-light"
-        >
-          View all students
-        </Link>
+        <div className="flex flex-wrap gap-3">
+          <Link
+            href="/admin/tests"
+            className="whitespace-nowrap rounded-md border border-brand-navy/20 px-4 py-2 text-sm font-semibold text-brand-navy transition-colors hover:bg-brand-navy hover:text-white"
+          >
+            Manage tests
+          </Link>
+          <Link
+            href="/admin/students"
+            className="whitespace-nowrap rounded-md bg-brand-navy px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-navy-light"
+          >
+            View all students
+          </Link>
+        </div>
       </div>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

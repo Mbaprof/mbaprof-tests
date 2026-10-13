@@ -31,6 +31,9 @@ export default async function AdminLayout({
             <Link href="/admin/students" className={navClass}>
               Students
             </Link>
+            <Link href="/admin/tests" className={navClass}>
+              Tests
+            </Link>
             <Link href="/student" className={`${navClass} hidden sm:inline`}>
               Take tests
             </Link>

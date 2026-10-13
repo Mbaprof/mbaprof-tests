@@ -74,3 +74,15 @@ export async function submittedCounts(
   });
   return new Map(rows.map((r) => [r.studentId, r._count._all]));
 }
+
+// Digits-only international number for a wa.me link. Students type Indian
+// mobile numbers as 10 digits (sometimes with +91, 91 or a leading 0);
+// anything that does not look like a phone number returns null.
+export function whatsappNumber(phone: string | null | undefined) {
+  if (!phone) return null;
+  let digits = phone.replace(/D/g, "");
+  if (digits.startsWith("00")) digits = digits.slice(2);
+  if (digits.length === 11 && digits.startsWith("0")) digits = digits.slice(1);
+  if (digits.length === 10) digits = "91" + digits;
+  return digits.length >= 11 && digits.length <= 15 ? digits : null;
+}

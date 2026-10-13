@@ -55,12 +55,14 @@ export const profileSchema = z.object({
 });
 
 export const optionSchema = z.object({
+  id: z.string().optional(),
   text: z.string().trim().min(1, "Option text is required"),
   imageUrl: z.string().trim().optional(),
   isCorrect: z.boolean(),
 });
 
 export const questionSchema = z.object({
+  id: z.string().optional(),
   text: z.string().trim().min(1, "Question text is required"),
   imageUrl: z.string().trim().optional(),
   explanation: z.string().trim().optional(),
@@ -78,6 +80,7 @@ export const questionSchema = z.object({
 // or a passage shared by several sub-questions (e.g. a reading passage or a
 // cloze paragraph).
 export const passageGroupSchema = z.object({
+  id: z.string().optional(),
   passageTitle: z.string().trim().optional(),
   passageText: z.string().trim().min(1, "Passage text is required"),
   questions: z.array(questionSchema).min(1, "Add at least one question"),
@@ -89,6 +92,7 @@ export const sectionBlockSchema = z.discriminatedUnion("kind", [
 ]);
 
 export const sectionSchema = z.object({
+  id: z.string().optional(),
   name: z.string().trim().min(1, "Section name is required"),
   blocks: z.array(sectionBlockSchema).min(1, "Add at least one question"),
 });
