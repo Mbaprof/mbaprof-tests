@@ -20,6 +20,7 @@ export default async function TestsPage() {
     title: test.title,
     description: test.description,
     targetExam: test.targetExam,
+    testType: test.testType,
     durationMinutes: test.durationMinutes,
     questionCount: test.sections.reduce((sum, s) => sum + s._count.questions, 0),
     sectionCount: test.sections.length,

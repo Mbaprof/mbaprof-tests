@@ -60,6 +60,9 @@ model Test {
   // in src/lib/validation.ts for the allowed values (same list students pick
   // from at registration).
   targetExam      String        @default("MH-CET (MBA)")
+  // FULL_LENGTH | SECTIONAL | DIAGNOSTIC - what kind of test this is, used by
+  // the type filter on the test lists (see src/lib/test-types.ts).
+  testType        String        @default("FULL_LENGTH")
   durationMinutes Int
   published       Boolean       @default(false)
   // Accessible without a premium account. Defaults to false so newly

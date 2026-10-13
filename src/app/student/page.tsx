@@ -3,12 +3,18 @@ import Link from "next/link";
 import { auth } from "@/auth";
 import { formatMarks, markingSummary } from "@/lib/marking";
 import { prisma } from "@/lib/prisma";
+import { isTestType, TEST_TYPES, testTypeShort } from "@/lib/test-types";
 import { getPublishedTests } from "@/lib/tests-data";
 
 import { startAttempt } from "./actions";
 import { StartTestButton } from "./start-test-button";
 
-export default async function StudentDashboardPage() {
+export default async function StudentDashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ type?: string }>;
+}) {
+  const { type } = await searchParams;
   const session = await auth();
   const studentId = session!.user.id;
 
@@ -29,6 +35,27 @@ export default async function StudentDashboardPage() {
   const myExam = student?.targetExam ?? null;
 
   const myExamTests = myExam ? tests.filter((t) => t.targetExam === myExam) : tests;
+
+  // Type filter (full-length / sectional / diagnostic ...). Only types this
+  // student actually has tests in are offered; it is driven by ?type= so it
+  // works without JavaScript and survives refresh and the back button.
+  const typeOptions = TEST_TYPES.map((t) => ({
+    ...t,
+    count: myExamTests.filter((x) => x.testType === t.value).length,
+  })).filter((t) => t.count > 0);
+  const activeType =
+    type && isTestType(type) && typeOptions.some((t) => t.value === type)
+      ? type
+      : null;
+  const visibleTests = activeType
+    ? myExamTests.filter((t) => t.testType === activeType)
+    : myExamTests;
+  const chipClass = (active: boolean) =>
+    `rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+      active
+        ? "bg-brand-navy text-white"
+        : "border border-black/10 bg-white text-brand-ink/70 hover:bg-brand-navy/10"
+    }`;
 
   return (
     <div>
@@ -54,7 +81,34 @@ export default async function StudentDashboardPage() {
         </p>
       )}
 
-      {myExamTests.length === 0 ? (
+      {typeOptions.length > 1 && (
+        <nav
+          aria-label="Filter tests by type"
+          className="mt-6 flex flex-wrap gap-2"
+        >
+          <Link
+            href="/student"
+            scroll={false}
+            aria-current={activeType ? undefined : "page"}
+            className={chipClass(!activeType)}
+          >
+            All ({myExamTests.length})
+          </Link>
+          {typeOptions.map((t) => (
+            <Link
+              key={t.value}
+              href={`/student?type=${t.value}`}
+              scroll={false}
+              aria-current={activeType === t.value ? "page" : undefined}
+              className={chipClass(activeType === t.value)}
+            >
+              {t.short} ({t.count})
+            </Link>
+          ))}
+        </nav>
+      )}
+
+      {visibleTests.length === 0 ? (
         <div className="mt-8 rounded-xl border border-dashed border-brand-navy/20 bg-white p-10 text-center text-brand-ink/60">
           {myExam
             ? `No ${myExam} tests are published yet - check back soon.`
@@ -62,7 +116,7 @@ export default async function StudentDashboardPage() {
         </div>
       ) : (
         <div className="mt-8 space-y-6">
-          {myExamTests.map((test) => {
+          {visibleTests.map((test) => {
             const testAttempts = attempts.filter((a) => a.testId === test.id);
             const inProgress = testAttempts.find((a) => !a.submittedAt);
             const completed = testAttempts.filter((a) => a.submittedAt);
@@ -81,6 +135,9 @@ export default async function StudentDashboardPage() {
                       </h2>
                       <span className="rounded-full bg-brand-gold/15 px-2.5 py-0.5 text-xs font-semibold text-brand-gold">
                         {test.targetExam}
+                      </span>
+                      <span className="rounded-full bg-black/5 px-2.5 py-0.5 text-xs font-semibold text-brand-ink/70">
+                        {testTypeShort(test.testType)}
                       </span>
                     </div>
                     {test.description && (

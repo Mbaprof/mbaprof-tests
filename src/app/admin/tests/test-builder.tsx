@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useRef, useState, useTransition } from "react";
 
+import { TEST_TYPES, type TestTypeValue } from "@/lib/test-types";
 import { uploadImage } from "@/lib/upload-image";
 import { MBA_ENTRANCE_EXAMS, type TestInput } from "@/lib/validation";
 
@@ -65,6 +66,7 @@ export type InitialTestData = {
   title: string;
   description: string;
   targetExam: string;
+  testType: string;
   durationMinutes: number;
   sections: SectionState[];
 };
@@ -289,6 +291,9 @@ export function TestBuilder({
       initialExam ??
       MBA_ENTRANCE_EXAMS[0]) as (typeof MBA_ENTRANCE_EXAMS)[number]
   );
+  const [testType, setTestType] = useState<TestTypeValue>(
+    (initialData?.testType as TestTypeValue | undefined) ?? "FULL_LENGTH"
+  );
   const [durationMinutes, setDurationMinutes] = useState(
     initialData?.durationMinutes ?? 60
   );
@@ -383,6 +388,7 @@ export function TestBuilder({
       title,
       description,
       targetExam,
+      testType,
       durationMinutes,
       // Premium gating is not used on MBAProf Tests - every test is open.
       isFreePreview: true,
@@ -472,6 +478,26 @@ export function TestBuilder({
               </option>
             ))}
           </select>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-brand-ink">
+            Test type
+          </label>
+          <select
+            value={testType}
+            onChange={(e) => setTestType(e.target.value as TestTypeValue)}
+            className={inputClass}
+          >
+            {TEST_TYPES.map((type) => (
+              <option key={type.value} value={type.value}>
+                {type.label}
+              </option>
+            ))}
+          </select>
+          <p className="mt-1 text-xs text-brand-ink/50">
+            Students can filter the test list by this.
+          </p>
         </div>
 
         <div>

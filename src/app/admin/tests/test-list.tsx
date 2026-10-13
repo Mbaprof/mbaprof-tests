@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 
+import { testTypeShort } from "@/lib/test-types";
 import { MBA_ENTRANCE_EXAMS } from "@/lib/validation";
 
 import { DeleteTestButton, PublishToggle } from "./test-row-actions";
@@ -11,6 +12,7 @@ export type TestRow = {
   id: string;
   title: string;
   targetExam: string;
+  testType: string;
   durationMinutes: number;
   published: boolean;
   questionCount: number;
@@ -111,6 +113,7 @@ export function TestList({ tests }: { tests: TestRow[] }) {
                 <tr>
                   <th className="px-4 py-3 font-semibold">Title</th>
                   <th className="px-4 py-3 font-semibold">Exam</th>
+                  <th className="px-4 py-3 font-semibold">Type</th>
                   <th className="px-4 py-3 font-semibold">Questions</th>
                   <th className="px-4 py-3 font-semibold">Duration</th>
                   <th className="px-4 py-3 font-semibold">Attempts</th>
@@ -126,6 +129,9 @@ export function TestList({ tests }: { tests: TestRow[] }) {
                     </td>
                     <td className="whitespace-nowrap px-4 py-3 text-brand-ink/70">
                       {test.targetExam}
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-3 text-brand-ink/70">
+                      {testTypeShort(test.testType)}
                     </td>
                     <td className="whitespace-nowrap px-4 py-3 text-brand-ink/70">
                       {test.questionCount} ({test.sectionCount} sections)

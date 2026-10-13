@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import { startAttempt } from "@/app/student/actions";
 import { StartTestButton } from "@/app/student/start-test-button";
+import { TEST_TYPES, testTypeLabel } from "@/lib/test-types";
 import { MBA_ENTRANCE_EXAMS } from "@/lib/validation";
 
 export type TestSummary = {
@@ -12,6 +13,7 @@ export type TestSummary = {
   title: string;
   description: string | null;
   targetExam: string;
+  testType: string;
   durationMinutes: number;
   questionCount: number;
   sectionCount: number;
@@ -26,20 +28,21 @@ export function TestsBrowser({
   isAuthenticated: boolean;
 }) {
   const [selectedExam, setSelectedExam] = useState<string>("All");
-  const [selectedType, setSelectedType] = useState<"All" | "Sectional" | "Full-length">("All");
+  const [selectedType, setSelectedType] = useState<string>("All");
 
   const examsWithCounts = MBA_ENTRANCE_EXAMS.map((exam) => ({
     exam,
     count: tests.filter((t) => t.targetExam === exam).length,
   }));
 
-  const testType = (test: TestSummary) => (test.sectionCount === 1 ? "Sectional" : "Full-length");
-  const sectionalCount = tests.filter((t) => testType(t) === "Sectional").length;
-  const fullLengthCount = tests.filter((t) => testType(t) === "Full-length").length;
+  const typesWithCounts = TEST_TYPES.map((type) => ({
+    ...type,
+    count: tests.filter((t) => t.testType === type.value).length,
+  })).filter((type) => type.count > 0);
 
   const visibleTests = tests
     .filter((t) => selectedExam === "All" || t.targetExam === selectedExam)
-    .filter((t) => selectedType === "All" || testType(t) === selectedType);
+    .filter((t) => selectedType === "All" || t.testType === selectedType);
 
   return (
     <div>
@@ -77,14 +80,15 @@ export function TestsBrowser({
             <select
               id="type-filter"
               value={selectedType}
-              onChange={(e) =>
-                setSelectedType(e.target.value as "All" | "Sectional" | "Full-length")
-              }
+              onChange={(e) => setSelectedType(e.target.value)}
               className="mt-1 w-64 max-w-full rounded-md border border-black/10 bg-white px-3 py-2 text-sm focus:border-brand-navy focus:outline-none focus:ring-1 focus:ring-brand-navy"
             >
               <option value="All">All types ({tests.length})</option>
-              <option value="Sectional">Sectional test ({sectionalCount})</option>
-              <option value="Full-length">Full length mock test ({fullLengthCount})</option>
+              {typesWithCounts.map((type) => (
+                <option key={type.value} value={type.value}>
+                  {type.label} ({type.count})
+                </option>
+              ))}
             </select>
           </div>
         </div>
@@ -110,7 +114,7 @@ export function TestsBrowser({
                     {test.targetExam}
                   </span>
                   <span className="rounded-full bg-black/5 px-2.5 py-0.5 text-xs font-semibold text-brand-ink/70">
-                    {testType(test) === "Sectional" ? "Sectional test" : "Full length mock test"}
+                    {testTypeLabel(test.testType)}
                   </span>
                 </div>
                 {test.description && (

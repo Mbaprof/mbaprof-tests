@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { TEST_TYPE_VALUES } from "@/lib/test-types";
+
 export const loginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(1),
@@ -104,6 +106,7 @@ export const testSchema = z.object({
     message: "Select which entrance exam this test is for",
   }),
   durationMinutes: z.coerce.number().int().min(1).max(600),
+  testType: z.enum(TEST_TYPE_VALUES).default("FULL_LENGTH"),
   isFreePreview: z.boolean().default(false),
   sections: z.array(sectionSchema).min(1, "Add at least one section"),
 });
