@@ -107,7 +107,62 @@ export function TestList({ tests }: { tests: TestRow[] }) {
         </div>
       ) : (
         <div className="mt-6 overflow-hidden rounded-xl border border-black/5 bg-white">
-          <div className="overflow-x-auto">
+          <ul className="divide-y divide-black/5 md:hidden">
+            {visibleTests.map((test) => (
+              <li key={test.id} className="space-y-3 p-4">
+                <div>
+                  <p className="font-semibold text-brand-navy">{test.title}</p>
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    <span className="rounded-full bg-brand-gold/15 px-2.5 py-0.5 text-xs font-semibold text-brand-gold">
+                      {test.targetExam}
+                    </span>
+                    <span className="rounded-full bg-black/5 px-2.5 py-0.5 text-xs font-semibold text-brand-ink/70">
+                      {testTypeShort(test.testType)}
+                    </span>
+                    <span
+                      className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                        test.published
+                          ? "bg-green-100 text-green-700"
+                          : "bg-amber-100 text-amber-700"
+                      }`}
+                    >
+                      {test.published ? "Published" : "Draft"}
+                    </span>
+                  </div>
+                </div>
+                <p className="text-xs text-brand-ink/60">
+                  {test.questionCount} questions ({test.sectionCount} sections)
+                  {" · "}
+                  {test.durationMinutes} min
+                  {" · "}
+                  <Link
+                    href={`/admin/tests/${test.id}/results`}
+                    className="font-medium text-brand-navy"
+                  >
+                    {test.attemptCount} attempt{test.attemptCount === 1 ? "" : "s"}
+                  </Link>
+                </p>
+                <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm [&_a]:inline-flex [&_a]:min-h-9 [&_a]:items-center [&_button]:min-h-9">
+                  <Link
+                    href={`/admin/tests/${test.id}/preview`}
+                    className="font-medium text-brand-navy"
+                  >
+                    Preview
+                  </Link>
+                  <Link
+                    href={`/admin/tests/${test.id}/edit`}
+                    className="font-medium text-brand-navy"
+                  >
+                    Edit
+                  </Link>
+                  <PublishToggle testId={test.id} published={test.published} />
+                  <DeleteTestButton testId={test.id} />
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          <div className="hidden overflow-x-auto md:block">
             <table className="w-full min-w-[56rem] text-left text-sm">
               <thead className="border-b border-black/5 bg-brand-cream/60 text-xs uppercase tracking-wide text-brand-ink/60">
                 <tr>

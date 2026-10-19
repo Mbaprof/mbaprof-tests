@@ -74,7 +74,42 @@ export default async function TestResultsPage({
           No students have completed this test yet.
         </div>
       ) : (
-        <div className="mt-8 overflow-x-auto rounded-xl border border-black/5 bg-white">
+        <div className="mt-8 overflow-hidden rounded-xl border border-black/5 bg-white">
+          <ul className="divide-y divide-black/5 md:hidden">
+            {test.attempts.map((attempt, index) => {
+              const scoreValue = attempt.score ?? 0;
+              const below = scores.filter((s) => s < scoreValue).length;
+              const percentile = scores.length
+                ? Math.round((below / scores.length) * 1000) / 10
+                : 0;
+              return (
+                <li key={attempt.id} className="flex items-start gap-3 p-4">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-navy text-xs font-semibold text-white">
+                    {index + 1}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-semibold text-brand-navy">
+                      {attempt.student.name}
+                    </p>
+                    <p className="break-all text-xs text-brand-ink/50">
+                      {attempt.student.email}
+                    </p>
+                    <p className="mt-2 text-sm text-brand-ink/80">
+                      <span className="font-semibold text-brand-navy">
+                        {formatMarks(attempt.score ?? 0)} / {attempt.totalMarks}
+                      </span>
+                      {" · "}
+                      {percentile}th percentile
+                    </p>
+                    <p className="mt-0.5 text-xs text-brand-ink/50">
+                      {attempt.submittedAt ? istDateTime.format(attempt.submittedAt) : "-"}
+                    </p>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+          <div className="hidden overflow-x-auto md:block">
           <table className="w-full min-w-[560px] text-left text-sm">
             <thead className="border-b border-black/5 bg-brand-cream/60 text-xs uppercase tracking-wide text-brand-ink/50">
               <tr>
@@ -117,6 +152,7 @@ export default async function TestResultsPage({
               })}
             </tbody>
           </table>
+          </div>
         </div>
       )}
     </div>

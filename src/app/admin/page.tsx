@@ -88,11 +88,11 @@ export default async function AdminOverviewPage() {
         </div>
       </div>
 
-      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         {cards.map((card) => (
           <div
             key={card.label}
-            className="rounded-xl border border-black/5 bg-white p-5"
+            className="rounded-xl border border-black/5 bg-white p-4 sm:p-5"
           >
             <p className="text-xs font-semibold uppercase tracking-wide text-brand-ink/50">
               {card.label}

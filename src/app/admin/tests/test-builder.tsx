@@ -753,12 +753,12 @@ export function TestBuilder({
       </button>
 
       <div className="fixed inset-x-0 bottom-0 border-t border-black/10 bg-white/95 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-end gap-4 px-4 py-4 sm:px-6">
+        <div className="mx-auto flex max-w-6xl items-center justify-end gap-3 px-4 py-3 sm:gap-4 sm:px-6 sm:py-4">
           <button
             type="button"
             disabled={isPending}
             onClick={() => handleSave(false)}
-            className="rounded-md border border-brand-navy/20 px-5 py-2.5 text-sm font-semibold text-brand-navy hover:bg-brand-navy/5 disabled:opacity-50"
+            className="flex-1 rounded-md border border-brand-navy/20 px-5 py-2.5 text-sm font-semibold text-brand-navy hover:bg-brand-navy/5 disabled:opacity-50 sm:flex-none"
           >
             Save as draft
           </button>
@@ -766,7 +766,7 @@ export function TestBuilder({
             type="button"
             disabled={isPending}
             onClick={() => handleSave(true)}
-            className="rounded-md bg-brand-navy px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-navy-light disabled:opacity-50"
+            className="flex-1 rounded-md bg-brand-navy px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-navy-light disabled:opacity-50 sm:flex-none"
           >
             {isPending ? "Saving..." : "Save & publish"}
           </button>

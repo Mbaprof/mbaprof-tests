@@ -80,7 +80,7 @@ export async function submittedCounts(
 // anything that does not look like a phone number returns null.
 export function whatsappNumber(phone: string | null | undefined) {
   if (!phone) return null;
-  let digits = phone.replace(/D/g, "");
+  let digits = phone.replace(/\D/g, "");
   if (digits.startsWith("00")) digits = digits.slice(2);
   if (digits.length === 11 && digits.startsWith("0")) digits = digits.slice(1);
   if (digits.length === 10) digits = "91" + digits;
