@@ -183,6 +183,8 @@ export function OverridesPanel({
 export type LectureItem = {
   id: string;
   date: string;
+  part: number;
+  auto: boolean;
   topic: string | null;
   recordingUrl: string | null;
   recordingPasscode: string | null;
@@ -200,6 +202,7 @@ export function RecordingsPanel({
 }) {
   const router = useRouter();
   const [classDate, setClassDate] = useState(today);
+  const [part, setPart] = useState(1);
   const [topic, setTopic] = useState("");
   const [recordingUrl, setRecordingUrl] = useState("");
   const [recordingPasscode, setRecordingPasscode] = useState("");
@@ -209,6 +212,7 @@ export function RecordingsPanel({
 
   function edit(item: LectureItem) {
     setClassDate(item.date);
+    setPart(item.part);
     setTopic(item.topic ?? "");
     setRecordingUrl(item.recordingUrl ?? "");
     setRecordingPasscode(item.recordingPasscode ?? "");
@@ -222,6 +226,7 @@ export function RecordingsPanel({
     startTransition(async () => {
       const result = await saveLecture(batchId, {
         classDate,
+        part,
         topic,
         recordingUrl,
         recordingPasscode,
@@ -229,6 +234,7 @@ export function RecordingsPanel({
       });
       if (result?.error) setError(result.error);
       else {
+        setPart(1);
         setTopic("");
         setRecordingUrl("");
         setRecordingPasscode("");
@@ -249,6 +255,7 @@ export function RecordingsPanel({
     startTransition(async () => {
       await saveLecture(batchId, {
         classDate: item.date,
+        part: item.part,
         topic: item.topic ?? "",
         recordingUrl: item.recordingUrl ?? "",
         recordingPasscode: item.recordingPasscode ?? "",
@@ -318,7 +325,8 @@ export function RecordingsPanel({
         </button>
       </div>
       <p className="text-xs text-brand-ink/50">
-        Saving a date that already has a recording updates it.
+        Recordings from Zoom appear here by themselves once class ends.
+        {part > 1 ? ` You are editing part ${part} of this day.` : " Saving a date that already has a recording updates it."}
       </p>
       {error && <p className="text-sm text-red-700">{error}</p>}
 
@@ -332,7 +340,13 @@ export function RecordingsPanel({
                 <div className="min-w-0">
                   <p className="font-medium text-brand-ink">
                     {formatDay(item.date)}
+                    {item.part > 1 ? ` · Part ${item.part}` : ""}
                     {item.topic ? ` - ${item.topic}` : ""}
+                    {item.auto && (
+                      <span className="ml-2 rounded-full bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-700">
+                        From Zoom
+                      </span>
+                    )}
                   </p>
                   <p className="break-all text-xs text-brand-ink/60">
                     {item.recordingUrl ?? "No recording link yet"}

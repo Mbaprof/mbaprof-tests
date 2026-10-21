@@ -223,6 +223,7 @@ const ymd = z.string().refine(isValidYmd, "Pick a valid date");
 
 export const lectureSchema = z.object({
   classDate: ymd,
+  part: z.number().int().min(1).max(20),
   topic: z.string().trim().max(150).optional(),
   recordingUrl: z
     .string()

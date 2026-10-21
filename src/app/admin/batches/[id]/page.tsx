@@ -64,7 +64,7 @@ export default async function AdminBatchPage({
     }),
     prisma.lecture.findMany({
       where: { batchId: id },
-      orderBy: { classDate: "desc" },
+      orderBy: [{ classDate: "desc" }, { part: "asc" }],
       take: 60,
     }),
     prisma.lectureJoin.findMany({
@@ -101,6 +101,8 @@ export default async function AdminBatchPage({
   const lectureItems: LectureItem[] = lectures.map((l) => ({
     id: l.id,
     date: dateToYmd(l.classDate),
+    part: l.part,
+    auto: !!l.zoomUuid,
     topic: l.topic,
     recordingUrl: l.recordingUrl,
     recordingPasscode: l.recordingPasscode,
@@ -162,7 +164,7 @@ export default async function AdminBatchPage({
 
       <Section
         title="Recordings"
-        hint="After class, paste the Zoom recording link here. Students in this batch will see it under Recordings."
+        hint="Recordings appear here automatically when Zoom finishes processing a class (once the Zoom connection is set up). You can also paste one by hand, add a topic, hide or delete any of them."
       >
         <RecordingsPanel batchId={batch.id} lectures={lectureItems} today={today} />
       </Section>

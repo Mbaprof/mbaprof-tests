@@ -89,7 +89,7 @@ export default async function LecturesPage({
     prisma.lecture.count({ where: recordingWhere }),
     prisma.lecture.findMany({
       where: recordingWhere,
-      orderBy: { classDate: "desc" },
+      orderBy: [{ classDate: "desc" }, { part: "asc" }],
       skip: (page - 1) * PAGE_SIZE,
       take: PAGE_SIZE,
     }),
@@ -293,6 +293,7 @@ export default async function LecturesPage({
                 <div className="min-w-0">
                   <p className="font-medium text-brand-ink">
                     {r.topic || "Class recording"}
+                    {r.part > 1 ? ` (Part ${r.part})` : ""}
                   </p>
                   <p className="text-xs text-brand-ink/60">
                     {formatLongDay(dateToYmd(r.classDate))}

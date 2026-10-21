@@ -134,9 +134,18 @@ export async function saveLecture(
   try {
     await prisma.lecture.upsert({
       where: {
-        batchId_classDate: { batchId, classDate: ymdToDate(parsed.data.classDate) },
+        batchId_classDate_part: {
+          batchId,
+          classDate: ymdToDate(parsed.data.classDate),
+          part: parsed.data.part,
+        },
       },
-      create: { batchId, classDate: ymdToDate(parsed.data.classDate), ...data },
+      create: {
+        batchId,
+        classDate: ymdToDate(parsed.data.classDate),
+        part: parsed.data.part,
+        ...data,
+      },
       update: data,
     });
   } catch (error) {

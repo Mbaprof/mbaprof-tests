@@ -196,19 +196,25 @@ model Batch {
   @@index([targetExam])
 }
 
-// One class day's recording (and topic). Created by an admin after class.
+// One recording of a class day. Pasted by an admin, or filed automatically
+// when Zoom reports a finished cloud recording (zoomUuid set). If a class is
+// stopped and restarted the same day, Zoom makes two recordings: part 1, part 2.
 model Lecture {
   id                String   @id @default(cuid())
   batchId           String
   batch             Batch    @relation(fields: [batchId], references: [id], onDelete: Cascade)
   classDate         DateTime @db.Date
+  part              Int      @default(1)
   topic             String?
   recordingUrl      String?
   recordingPasscode String?
+  // Zoom's id for this one recording session; makes webhook retries harmless.
+  zoomUuid          String?  @unique
+  durationMinutes   Int?
   published         Boolean  @default(true)
   createdAt         DateTime @default(now())
 
-  @@unique([batchId, classDate])
+  @@unique([batchId, classDate, part])
 }
 
 // A change to one day's class: CANCELLED, or CUSTOM (different time, or an

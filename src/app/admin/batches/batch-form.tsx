@@ -159,7 +159,9 @@ export function BatchForm({
         />
         <p className="mt-1 text-xs text-brand-ink/50">
           Use your recurring Zoom meeting, so the same link works every day.
-          Students only see it once class is about to start.
+          Students only see it once class is about to start, and recordings are
+          matched to this batch by the meeting number inside this link, so each
+          batch needs its own meeting.
         </p>
       </div>
 
