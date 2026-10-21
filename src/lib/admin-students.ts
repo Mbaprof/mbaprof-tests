@@ -7,6 +7,7 @@ export const PAGE_SIZE = 25;
 
 export type StudentFilters = {
   q: string;
+  batch: string; // "" = all, "none" = students without a batch, else a batch id
   exam: string; // "" = all, NOT_SET = students without an exam, else an exam name
   page: number;
 };
@@ -24,12 +25,16 @@ export function parseStudentFilters(params: Params): StudentFilters {
     examRaw === NOT_SET || (MBA_ENTRANCE_EXAMS as readonly string[]).includes(examRaw)
       ? examRaw
       : "";
+  const batchRaw = first(params.batch);
+  const batch = batchRaw === "none" || /^[a-z0-9]{10,40}$/i.test(batchRaw) ? batchRaw : "";
   const page = Math.max(1, Math.floor(Number(first(params.page))) || 1);
-  return { q, exam, page };
+  return { q, exam, batch, page };
 }
 
-export function studentWhere({ q, exam }: StudentFilters): Prisma.UserWhereInput {
+export function studentWhere({ q, exam, batch }: StudentFilters): Prisma.UserWhereInput {
   const where: Prisma.UserWhereInput = { role: "STUDENT" };
+  if (batch === "none") where.batchId = null;
+  else if (batch) where.batchId = batch;
   if (exam === NOT_SET) where.targetExam = null;
   else if (exam) where.targetExam = exam;
   if (q) {
@@ -53,6 +58,7 @@ export const studentSelect = {
   course: true,
   targetExam: true,
   createdAt: true,
+  batch: { select: { id: true, name: true } },
   _count: { select: { attempts: true } },
   attempts: {
     orderBy: { startedAt: "desc" },

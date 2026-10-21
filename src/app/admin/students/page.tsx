@@ -11,8 +11,11 @@ import {
   submittedCounts,
   whatsappNumber,
 } from "@/lib/admin-students";
+import { assignStudentsToBatch } from "@/app/admin/batches/actions";
 import { prisma } from "@/lib/prisma";
 import { MBA_ENTRANCE_EXAMS } from "@/lib/validation";
+
+import { BulkAssignBar } from "./bulk-assign-bar";
 
 export const metadata: Metadata = { title: "Students | MBAProf Tests" };
 
@@ -24,7 +27,13 @@ export default async function AdminStudentsPage({
   const filters = parseStudentFilters(await searchParams);
   const where = studentWhere(filters);
 
-  const total = await prisma.user.count({ where });
+  const [total, batches] = await Promise.all([
+    prisma.user.count({ where }),
+    prisma.batch.findMany({
+      orderBy: { createdAt: "asc" },
+      select: { id: true, name: true },
+    }),
+  ]);
   const pageCount = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const page = Math.min(filters.page, pageCount);
 
@@ -42,7 +51,13 @@ export default async function AdminStudentsPage({
 
   const qs = (overrides: Record<string, string | number | undefined>) => {
     const p = new URLSearchParams();
-    const merged = { q: filters.q, exam: filters.exam, page: undefined, ...overrides };
+    const merged = {
+      q: filters.q,
+      exam: filters.exam,
+      batch: filters.batch,
+      page: undefined,
+      ...overrides,
+    };
     for (const [k, v] of Object.entries(merged)) {
       const text = v === undefined ? "" : String(v);
       if (text !== "" && text !== "1") p.set(k, text);
@@ -53,7 +68,7 @@ export default async function AdminStudentsPage({
 
   const from = total === 0 ? 0 : (page - 1) * PAGE_SIZE + 1;
   const to = Math.min(page * PAGE_SIZE, total);
-  const filtered = Boolean(filters.q || filters.exam);
+  const filtered = Boolean(filters.q || filters.exam || filters.batch);
 
   return (
     <div>
@@ -108,6 +123,25 @@ export default async function AdminStudentsPage({
             <option value={NOT_SET}>{NOT_SET}</option>
           </select>
         </div>
+        <div className="w-full sm:w-auto">
+          <label htmlFor="batch" className="block text-xs font-medium text-brand-ink/70">
+            Batch
+          </label>
+          <select
+            id="batch"
+            name="batch"
+            defaultValue={filters.batch}
+            className="mt-1 w-full rounded-md border border-black/10 bg-white px-3 py-2 text-sm focus:border-brand-navy focus:outline-none focus:ring-1 focus:ring-brand-navy sm:w-48"
+          >
+            <option value="">All batches</option>
+            {batches.map((b) => (
+              <option key={b.id} value={b.id}>
+                {b.name}
+              </option>
+            ))}
+            <option value="none">No batch yet</option>
+          </select>
+        </div>
         <button
           type="submit"
           className="cursor-pointer rounded-md border border-brand-navy/20 px-4 py-2 text-sm font-semibold text-brand-navy transition-colors hover:bg-brand-navy hover:text-white"
@@ -131,14 +165,26 @@ export default async function AdminStudentsPage({
             : "No students have registered yet."}
         </div>
       ) : (
-        <div className="mt-6 overflow-hidden rounded-xl border border-black/5 bg-white">
+        <form
+          action={assignStudentsToBatch}
+          className="mt-6 overflow-hidden rounded-xl border border-black/5 bg-white"
+        >
+          <input type="hidden" name="returnTo" value={`/admin/students${qs({ page })}`} />
+          <BulkAssignBar batches={batches} />
           <ul className="divide-y divide-black/5 md:hidden">
             {students.map((s) => {
               const last = s.attempts[0]?.startedAt;
               return (
                 <li key={s.id} className="space-y-3 p-4">
                   <div className="flex items-start justify-between gap-3">
-                    <div className="min-w-0">
+                    <input
+                      type="checkbox"
+                      name="ids"
+                      value={s.id}
+                      aria-label={`Select ${s.name}`}
+                      className="mt-1 h-5 w-5 shrink-0 accent-brand-navy"
+                    />
+                    <div className="min-w-0 flex-1">
                       <p className="font-semibold text-brand-ink">{s.name}</p>
                       <a
                         href={`mailto:${s.email}`}
@@ -172,6 +218,10 @@ export default async function AdminStudentsPage({
                     </p>
                   )}
 
+                  <p className="text-xs text-brand-ink/60">
+                    Batch: <span className="font-medium text-brand-ink">{s.batch?.name ?? "Not assigned"}</span>
+                  </p>
+
                   <dl className="grid grid-cols-3 gap-2 rounded-lg bg-brand-cream/60 px-3 py-2 text-xs">
                     <div>
                       <dt className="text-brand-ink/50">Joined</dt>
@@ -198,13 +248,17 @@ export default async function AdminStudentsPage({
           </ul>
 
           <div className="hidden overflow-x-auto md:block">
-            <table className="w-full min-w-[56rem] text-left text-sm">
+            <table className="w-full min-w-[64rem] text-left text-sm">
               <thead className="border-b border-black/5 bg-brand-cream/60 text-xs uppercase tracking-wide text-brand-ink/60">
                 <tr>
+                  <th className="w-10 px-4 py-3 font-semibold">
+                    <span className="sr-only">Select</span>
+                  </th>
                   <th className="px-4 py-3 font-semibold">Student</th>
                   <th className="px-4 py-3 font-semibold">Phone</th>
                   <th className="px-4 py-3 font-semibold">College / course</th>
                   <th className="px-4 py-3 font-semibold">Exam</th>
+                  <th className="px-4 py-3 font-semibold">Batch</th>
                   <th className="px-4 py-3 font-semibold">Joined</th>
                   <th className="px-4 py-3 text-right font-semibold">Tests</th>
                   <th className="px-4 py-3 font-semibold">Last active</th>
@@ -215,6 +269,15 @@ export default async function AdminStudentsPage({
                   const last = s.attempts[0]?.startedAt;
                   return (
                     <tr key={s.id} className="align-top">
+                      <td className="px-4 py-3">
+                        <input
+                          type="checkbox"
+                          name="ids"
+                          value={s.id}
+                          aria-label={`Select ${s.name}`}
+                          className="h-4 w-4 accent-brand-navy"
+                        />
+                      </td>
                       <td className="px-4 py-3">
                         <p className="font-medium text-brand-ink">{s.name}</p>
                         <a
@@ -251,6 +314,9 @@ export default async function AdminStudentsPage({
                         ) : (
                           <span className="text-brand-ink/40">-</span>
                         )}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-3 text-brand-ink/80">
+                        {s.batch?.name ?? <span className="text-brand-ink/40">-</span>}
                       </td>
                       <td
                         className="whitespace-nowrap px-4 py-3 text-brand-ink/80"
@@ -314,7 +380,7 @@ export default async function AdminStudentsPage({
               )}
             </div>
           </div>
-        </div>
+        </form>
       )}
 
       <p className="mt-4 text-xs text-brand-ink/50">

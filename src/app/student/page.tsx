@@ -66,12 +66,20 @@ export default async function StudentDashboardPage({
             Pick a test below and take it under a live timer.
           </p>
         </div>
-        <Link
-          href="/student/attempts"
-          className="whitespace-nowrap rounded-md border border-brand-navy/20 px-4 py-2 text-sm font-semibold text-brand-navy transition-colors hover:bg-brand-navy hover:text-white"
-        >
-          Attempted tests
-        </Link>
+        <div className="flex flex-wrap gap-3">
+          <Link
+            href="/student/lectures"
+            className="whitespace-nowrap rounded-md bg-brand-navy px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-navy-light"
+          >
+            Live classes
+          </Link>
+          <Link
+            href="/student/attempts"
+            className="whitespace-nowrap rounded-md border border-brand-navy/20 px-4 py-2 text-sm font-semibold text-brand-navy transition-colors hover:bg-brand-navy hover:text-white"
+          >
+            Attempted tests
+          </Link>
+        </div>
       </div>
       {myExam && (
         <p className="mt-2 text-sm text-brand-ink/70">

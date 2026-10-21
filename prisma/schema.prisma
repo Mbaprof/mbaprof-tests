@@ -34,6 +34,13 @@ model User {
   testsCreated Test[]        @relation("TestCreatedBy")
   attempts     TestAttempt[]
   passwordResetTokens PasswordResetToken[]
+  // The class batch this student belongs to (set by an admin). Decides which
+  // live classes and recordings they see. Null = not placed in a batch yet.
+  batchId      String?
+  batch        Batch?        @relation(fields: [batchId], references: [id], onDelete: SetNull)
+  lectureJoins LectureJoin[]
+
+  @@index([batchId])
 }
 
 // Forgot-password flow: a short-lived, single-use token emailed to the
@@ -162,4 +169,73 @@ model Answer {
   timeSpentSeconds Int         @default(0)
 
   @@unique([attemptId, questionId])
+}
+
+// ---- Live classes (Zoom) -----------------------------------------------------
+// A batch has a standing weekly schedule and ONE recurring Zoom meeting, so
+// nobody has to create a meeting per day. Times are IST.
+
+model Batch {
+  id              String          @id @default(cuid())
+  name            String
+  targetExam      String
+  zoomJoinUrl     String
+  zoomPasscode    String?
+  // Weekdays the class runs on: 0 = Sunday ... 6 = Saturday.
+  days            Int[]
+  // "HH:mm" in IST, and how long the class lasts.
+  startTime       String
+  durationMinutes Int             @default(120)
+  active          Boolean         @default(true)
+  createdAt       DateTime        @default(now())
+  students        User[]
+  lectures        Lecture[]
+  overrides       ClassOverride[]
+  joins           LectureJoin[]
+
+  @@index([targetExam])
+}
+
+// One class day's recording (and topic). Created by an admin after class.
+model Lecture {
+  id                String   @id @default(cuid())
+  batchId           String
+  batch             Batch    @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  classDate         DateTime @db.Date
+  topic             String?
+  recordingUrl      String?
+  recordingPasscode String?
+  published         Boolean  @default(true)
+  createdAt         DateTime @default(now())
+
+  @@unique([batchId, classDate])
+}
+
+// A change to one day's class: CANCELLED, or CUSTOM (different time, or an
+// extra class on a day the batch normally has none).
+model ClassOverride {
+  id              String   @id @default(cuid())
+  batchId         String
+  batch           Batch    @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  classDate       DateTime @db.Date
+  kind            String
+  startTime       String?
+  durationMinutes Int?
+  note            String?
+
+  @@unique([batchId, classDate])
+}
+
+// First time a student pressed Join on a class day - simple attendance.
+model LectureJoin {
+  id        String   @id @default(cuid())
+  batchId   String
+  batch     Batch    @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  classDate DateTime @db.Date
+  joinedAt  DateTime @default(now())
+
+  @@unique([userId, batchId, classDate])
+  @@index([batchId, classDate])
 }
