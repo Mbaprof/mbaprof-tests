@@ -43,7 +43,15 @@ export function Countdown({ targetIso, label }: { targetIso: string; label: stri
   );
 }
 
-export function CopyButton({ text, label = "Copy" }: { text: string; label?: string }) {
+export function CopyButton({
+  text,
+  label = "Copy",
+  onDark = false,
+}: {
+  text: string;
+  label?: string;
+  onDark?: boolean;
+}) {
   const [copied, setCopied] = useState(false);
   return (
     <button
@@ -57,7 +65,11 @@ export function CopyButton({ text, label = "Copy" }: { text: string; label?: str
           // Clipboard blocked: the text is still visible next to the button.
         }
       }}
-      className="cursor-pointer rounded-md border border-black/10 px-2.5 py-1 text-xs font-semibold text-brand-navy hover:bg-brand-cream"
+      className={`cursor-pointer rounded-md border px-2.5 py-1 text-xs font-semibold ${
+        onDark
+          ? "border-white/40 text-white hover:bg-white/15"
+          : "border-black/10 text-brand-navy hover:bg-brand-cream"
+      }`}
     >
       {copied ? "Copied" : label}
     </button>

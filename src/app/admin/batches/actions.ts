@@ -1,10 +1,12 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { z } from "zod";
 
 import { getAdminSession } from "@/lib/admin";
 import {
   batchSchema,
+  isValidYmd,
   lectureSchema,
   overrideSchema,
   type BatchInput,
@@ -158,6 +160,58 @@ export async function saveLecture(
 export async function deleteLecture(lectureId: string) {
   await requireAdminUser();
   await prisma.lecture.delete({ where: { id: lectureId } });
+}
+
+// ---- Planned topics for upcoming classes --------------------------------------
+// A topic with no recording yet is stored as a lecture row without a link; the
+// Zoom webhook later fills that same row with the recording.
+
+export async function saveTopics(
+  batchId: string,
+  items: { classDate: string; topic: string }[]
+): Promise<ActionState> {
+  await requireAdminUser();
+  if (!Array.isArray(items) || items.length === 0 || items.length > 31) {
+    return { error: "Nothing to save" };
+  }
+
+  const cleaned: { classDate: string; topic: string }[] = [];
+  for (const item of items) {
+    const date = z.string().refine(isValidYmd).safeParse(item.classDate);
+    const topic = z.string().trim().max(150, "Topics can be up to 150 characters").safeParse(item.topic ?? "");
+    if (!date.success) return { error: "Pick valid dates" };
+    if (!topic.success) return { error: firstError(topic.error.issues) };
+    cleaned.push({ classDate: date.data, topic: topic.data });
+  }
+
+  try {
+    for (const { classDate, topic } of cleaned) {
+      const date = ymdToDate(classDate);
+      const target = await prisma.lecture.findFirst({
+        where: { batchId, classDate: date },
+        orderBy: { part: "asc" },
+        select: { id: true, recordingUrl: true, zoomUuid: true },
+      });
+      if (topic) {
+        if (target) {
+          await prisma.lecture.update({ where: { id: target.id }, data: { topic } });
+        } else {
+          await prisma.lecture.create({ data: { batchId, classDate: date, part: 1, topic } });
+        }
+      } else if (target) {
+        if (target.recordingUrl || target.zoomUuid) {
+          await prisma.lecture.update({ where: { id: target.id }, data: { topic: null } });
+        } else {
+          // A topic-only placeholder with nothing else on it: remove it.
+          await prisma.lecture.delete({ where: { id: target.id } });
+        }
+      }
+    }
+  } catch (error) {
+    console.error("Failed to save topics:", error);
+    return { error: "Could not save the topics. Please try again." };
+  }
+  return { ok: true };
 }
 
 // ---- Cancel or change a single day --------------------------------------------------------

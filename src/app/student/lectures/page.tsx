@@ -82,7 +82,7 @@ export default async function LecturesPage({
     ...(q ? { topic: { contains: q, mode: "insensitive" as const } } : {}),
   };
 
-  const [overrides, recordingCount, recordings] = await Promise.all([
+  const [overrides, recordingCount, recordings, weekTopics] = await Promise.all([
     prisma.classOverride.findMany({
       where: { batchId: batch.id, classDate: { gte: ymdToDate(today) } },
     }),
@@ -93,7 +93,24 @@ export default async function LecturesPage({
       skip: (page - 1) * PAGE_SIZE,
       take: PAGE_SIZE,
     }),
+    // Planned topics for the coming week (topic-only rows count too).
+    prisma.lecture.findMany({
+      where: {
+        batchId: batch.id,
+        published: true,
+        topic: { not: null },
+        classDate: { gte: ymdToDate(today), lte: ymdToDate(addDays(today, 7)) },
+      },
+      orderBy: { part: "asc" },
+      select: { classDate: true, topic: true },
+    }),
   ]);
+
+  const topicByDate = new Map<string, string>();
+  for (const t of weekTopics) {
+    const d = dateToYmd(t.classDate);
+    if (t.topic && !topicByDate.has(d)) topicByDate.set(d, t.topic);
+  }
 
   const now = new Date();
   const week = sessionsBetween(batch, overrides, today, addDays(today, 7));
@@ -161,6 +178,11 @@ export default async function LecturesPage({
               {relativeDay(current.date, today)} · {formatClock(current.start)} -{" "}
               {formatClock(current.end)}
             </p>
+            {topicByDate.get(current.date) && (
+              <p className="mt-1 text-sm font-medium text-brand-gold-light">
+                Topic: {topicByDate.get(current.date)}
+              </p>
+            )}
             {current.note && <p className="mt-1 text-sm text-white/80">{current.note}</p>}
             <div className="mt-4 flex flex-wrap items-center gap-3">
               <a
@@ -174,7 +196,7 @@ export default async function LecturesPage({
               {batch.zoomPasscode && (
                 <span className="flex items-center gap-2 text-sm text-white/90">
                   Passcode if asked: <strong>{batch.zoomPasscode}</strong>
-                  <CopyButton text={batch.zoomPasscode} />
+                  <CopyButton text={batch.zoomPasscode} onDark />
                 </span>
               )}
             </div>
@@ -191,6 +213,11 @@ export default async function LecturesPage({
               {relativeDay(current.date, today)} · {formatClock(current.start)} -{" "}
               {formatClock(current.end)}
             </p>
+            {topicByDate.get(current.date) && (
+              <p className="mt-1 text-sm font-medium text-brand-gold">
+                Topic: {topicByDate.get(current.date)}
+              </p>
+            )}
             {current.note && (
               <p className="mt-1 text-sm text-brand-ink/70">{current.note}</p>
             )}
@@ -252,6 +279,12 @@ export default async function LecturesPage({
                       </span>
                     )}
                   </span>
+                )}
+                {s.status !== "cancelled" && topicByDate.get(s.date) && (
+                  <p className="w-full text-xs text-brand-ink/70">
+                    <span className="font-semibold text-brand-navy">Topic:</span>{" "}
+                    {topicByDate.get(s.date)}
+                  </p>
                 )}
               </li>
             ))}

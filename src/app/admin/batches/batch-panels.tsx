@@ -11,6 +11,7 @@ import {
   deleteOverride,
   saveLecture,
   saveOverride,
+  saveTopics,
 } from "./actions";
 
 const inputClass =
@@ -430,6 +431,94 @@ export function DeleteBatchButton({ batchId, studentCount }: { batchId: string; 
           Cancel
         </button>
       </div>
+    </div>
+  );
+}
+
+// ---- Topics for upcoming classes -----------------------------------------------------
+
+export type TopicRow = {
+  date: string; // YYYY-MM-DD
+  label: string;
+  time: string;
+  cancelled: boolean;
+  topic: string;
+};
+
+export function TopicsPanel({ batchId, rows }: { batchId: string; rows: TopicRow[] }) {
+  const router = useRouter();
+  const [values, setValues] = useState<Record<string, string>>(
+    Object.fromEntries(rows.map((r) => [r.date, r.topic]))
+  );
+  const [error, setError] = useState<string | null>(null);
+  const [saved, setSaved] = useState(false);
+  const [isPending, startTransition] = useTransition();
+
+  const changed = rows.filter((r) => (values[r.date] ?? "").trim() !== r.topic.trim());
+
+  function save() {
+    setError(null);
+    setSaved(false);
+    startTransition(async () => {
+      const result = await saveTopics(
+        batchId,
+        changed.map((r) => ({ classDate: r.date, topic: values[r.date] ?? "" }))
+      );
+      if (result?.error) setError(result.error);
+      else {
+        setSaved(true);
+        router.refresh();
+      }
+    });
+  }
+
+  if (rows.length === 0) {
+    return <p className="text-sm text-brand-ink/60">No classes in the next two weeks.</p>;
+  }
+
+  return (
+    <div className="space-y-4">
+      <ul className="divide-y divide-black/5 rounded-lg border border-black/5">
+        {rows.map((r) => (
+          <li key={r.date} className="grid gap-2 px-4 py-3 sm:grid-cols-[11rem_1fr] sm:items-center">
+            <div className="text-sm">
+              <p className="font-medium text-brand-ink">{r.label}</p>
+              <p className="text-xs text-brand-ink/60">
+                {r.cancelled ? <span className="text-red-700">Cancelled</span> : r.time}
+              </p>
+            </div>
+            <input
+              value={values[r.date] ?? ""}
+              onChange={(e) => {
+                setSaved(false);
+                setValues((prev) => ({ ...prev, [r.date]: e.target.value }));
+              }}
+              maxLength={150}
+              disabled={r.cancelled}
+              placeholder={r.cancelled ? "No class" : "e.g. Quant - Percentages"}
+              className="w-full rounded-md border border-black/10 bg-white px-3 py-2 text-sm focus:border-brand-navy focus:outline-none focus:ring-1 focus:ring-brand-navy disabled:bg-black/5"
+            />
+          </li>
+        ))}
+      </ul>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <p className="text-sm text-brand-ink/60">
+          {changed.length > 0
+            ? `${changed.length} change${changed.length === 1 ? "" : "s"} not saved yet`
+            : saved
+              ? "Saved. Students can see these topics now."
+              : "Leave a day empty to show no topic."}
+        </p>
+        <button
+          type="button"
+          disabled={isPending || changed.length === 0}
+          onClick={save}
+          className="cursor-pointer rounded-md bg-brand-navy px-4 py-2 text-sm font-semibold text-white hover:bg-brand-navy-light disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {isPending ? "Saving..." : "Save topics"}
+        </button>
+      </div>
+      {error && <p className="text-sm text-red-700">{error}</p>}
     </div>
   );
 }

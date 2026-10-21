@@ -6,8 +6,10 @@ import {
   addDays,
   dateToYmd,
   daysSummary,
+  formatClock,
   formatDay,
   joinState,
+  relativeDay,
   sessionsBetween,
   todayIst,
   ymdToDate,
@@ -20,8 +22,10 @@ import {
   DeleteBatchButton,
   OverridesPanel,
   RecordingsPanel,
+  TopicsPanel,
   type LectureItem,
   type OverrideItem,
+  type TopicRow,
 } from "../batch-panels";
 
 export const metadata: Metadata = { title: "Batch | MBAProf Tests" };
@@ -98,7 +102,28 @@ export default async function AdminBatchPage({
       note: o.note,
     }));
 
-  const lectureItems: LectureItem[] = lectures.map((l) => ({
+  // Planned topics for the next two weeks (a topic can exist before its recording).
+  const topicByDate = new Map<string, string>();
+  for (const l of lectures) {
+    const d = dateToYmd(l.classDate);
+    if (l.topic && !topicByDate.has(d)) topicByDate.set(d, l.topic);
+  }
+  const topicRows: TopicRow[] = sessionsBetween(batch, overrides, today, addDays(today, 13)).map(
+    (s) => ({
+      date: s.date,
+      label: relativeDay(s.date, today) === formatDay(s.date)
+        ? formatDay(s.date)
+        : relativeDay(s.date, today) + " (" + formatDay(s.date) + ")",
+      time: formatClock(s.start) + " - " + formatClock(s.end),
+      cancelled: s.status === "cancelled",
+      topic: topicByDate.get(s.date) ?? "",
+    })
+  );
+
+  // Hide topic-only rows for days that have not happened yet from the recordings list.
+  const lectureItems: LectureItem[] = lectures
+    .filter((l) => l.recordingUrl || dateToYmd(l.classDate) <= today)
+    .map((l) => ({
     id: l.id,
     date: dateToYmd(l.classDate),
     part: l.part,
@@ -160,6 +185,13 @@ export default async function AdminBatchPage({
         hint="Holiday, teacher unavailable, or an extra class. Students see the change straight away."
       >
         <OverridesPanel batchId={batch.id} overrides={overrideItems} today={today} />
+      </Section>
+
+      <Section
+        title="Topics for upcoming classes"
+        hint="Type what each class will cover. Students see it in their weekly schedule and on the next-class card."
+      >
+        <TopicsPanel batchId={batch.id} rows={topicRows} />
       </Section>
 
       <Section
