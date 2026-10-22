@@ -76,3 +76,42 @@ export async function sendPasswordResetEmail(user: {
     console.error("Failed to send password reset email:", error);
   }
 }
+
+export async function sendNewLeadNotification(lead: {
+  refCode: string;
+  name: string;
+  phone: string;
+  email: string | null;
+  city: string | null;
+  currentStatus: string | null;
+  plan: string;
+  utmSource: string | null;
+  utmCampaign: string | null;
+}) {
+  const notifyEmail = process.env.ADMIN_NOTIFICATION_EMAIL;
+  if (!resend || !notifyEmail) return;
+
+  try {
+    await resend.emails.send({
+      from: process.env.RESEND_FROM_EMAIL || "MBAProf Tests <onboarding@resend.dev>",
+      to: notifyEmail,
+      subject: `New CET 2027 lead: ${lead.name} (${lead.plan === "PLUS" ? "CET Plus" : "CET Basic"})`,
+      text: [
+        "A new person just registered on the CET 2027 page.",
+        "",
+        `Reference: ${lead.refCode}`,
+        `Name: ${lead.name}`,
+        `Phone / WhatsApp: +91 ${lead.phone}`,
+        `Email: ${lead.email ?? "-"}`,
+        `City: ${lead.city ?? "-"}`,
+        `Current status: ${lead.currentStatus ?? "-"}`,
+        `Program: ${lead.plan === "PLUS" ? "CET Plus" : "CET Basic"}`,
+        `Source: ${lead.utmSource ?? "-"} / ${lead.utmCampaign ?? "-"}`,
+        "",
+        "Call within 24 hours. All leads: https://tests.mbaprof.in/admin/leads",
+      ].join("\n"),
+    });
+  } catch (error) {
+    console.error("Failed to send new-lead notification email:", error);
+  }
+}

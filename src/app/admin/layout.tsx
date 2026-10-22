@@ -38,6 +38,9 @@ export default async function AdminLayout({
               <Link href="/admin/batches" className={navClass}>
                 Batches
               </Link>
+              <Link href="/admin/leads" className={navClass}>
+                Leads
+              </Link>
               <Link href="/student" className={navClass}>
                 Take tests
               </Link>
@@ -68,6 +71,9 @@ export default async function AdminLayout({
             </Link>
             <Link href="/admin/batches" className="whitespace-nowrap rounded-full bg-brand-cream px-4 py-2 text-sm font-medium text-brand-navy transition-colors hover:bg-brand-navy/10">
               Batches
+            </Link>
+            <Link href="/admin/leads" className="whitespace-nowrap rounded-full bg-brand-cream px-4 py-2 text-sm font-medium text-brand-navy transition-colors hover:bg-brand-navy/10">
+              Leads
             </Link>
             <Link href="/student" className="whitespace-nowrap rounded-full bg-brand-cream px-4 py-2 text-sm font-medium text-brand-navy transition-colors hover:bg-brand-navy/10">
               Take tests

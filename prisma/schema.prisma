@@ -268,3 +268,41 @@ model BatchRegistration {
   @@unique([userId, batchId])
   @@index([batchId])
 }
+
+// A sign-up from a campaign landing page (e.g. /cet2027). Not a student
+// account: these people have not registered on the portal yet. The same phone
+// number submitting again updates the existing row instead of duplicating it.
+model Lead {
+  id            String   @id @default(cuid())
+  // Short reference shown to the person on the thank-you page, e.g. CET27-7K3QX
+  refCode       String   @unique
+  campaign      String   @default("cet2027")
+  name          String
+  // 10-digit Indian mobile number (no +91)
+  phone         String
+  email         String?
+  city          String?
+  // Final-year student / Graduate / Working professional
+  currentStatus String?
+  // BASIC | PLUS
+  plan          String   @default("BASIC")
+  consent       Boolean  @default(true)
+  // NEW | CONTACTED | ENROLLED | NOT_INTERESTED (set by the team)
+  stage         String   @default("NEW")
+  submissions   Int      @default(1)
+  utmSource     String?
+  utmMedium     String?
+  utmCampaign   String?
+  utmContent    String?
+  utmTerm       String?
+  fbclid        String?
+  gclid         String?
+  referrer      String?
+  userAgent     String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([phone])
+  @@index([createdAt])
+  @@index([stage])
+}

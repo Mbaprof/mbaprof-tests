@@ -61,7 +61,7 @@ export async function GET(request: Request) {
       [
         s.name,
         s.email,
-        s.phone,
+        s.phone?.replace(/^\+/, ""),
         s.college,
         s.course,
         s.targetExam,
