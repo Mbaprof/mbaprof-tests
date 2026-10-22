@@ -29,7 +29,7 @@ export default async function ResetPasswordPage({
           This link is missing a reset token.{" "}
           <Link
             href="/forgot-password"
-            className="font-medium text-brand-navy hover:text-brand-gold"
+            className="font-medium text-brand-navy hover:text-brand-gold-dark"
           >
             Request a new one
           </Link>

@@ -215,7 +215,7 @@ export default async function LecturesPage({
           </div>
         ) : current ? (
           <div className="p-5 sm:p-6">
-            <p className="text-xs font-semibold uppercase tracking-wide text-brand-gold">
+            <p className="heading-flag text-xs font-semibold uppercase tracking-wide text-brand-navy">
               Next class
             </p>
             <p className="mt-2 text-xl font-bold text-brand-navy">
@@ -223,7 +223,7 @@ export default async function LecturesPage({
               {formatClock(current.end)}
             </p>
             {topicByDate.get(current.date) && (
-              <p className="mt-1 text-sm font-medium text-brand-gold">
+              <p className="mt-1 text-sm font-medium text-brand-navy">
                 Topic: {topicByDate.get(current.date)}
               </p>
             )}

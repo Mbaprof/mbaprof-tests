@@ -25,7 +25,7 @@ export default async function AttemptedTestsPage() {
         </div>
         <Link
           href="/student"
-          className="whitespace-nowrap text-sm font-medium text-brand-navy hover:text-brand-gold"
+          className="whitespace-nowrap text-sm font-medium text-brand-navy hover:text-brand-gold-dark"
         >
           Back to tests
         </Link>

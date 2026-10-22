@@ -617,7 +617,7 @@ export function TestBuilder({
                     className="rounded-xl border-2 border-brand-gold/30 bg-brand-cream/40 p-4 space-y-5"
                   >
                     <div className="flex items-center justify-between gap-4">
-                      <span className="text-xs font-semibold uppercase tracking-wide text-brand-gold">
+                      <span className="heading-flag text-xs font-semibold uppercase tracking-wide text-brand-navy">
                         Shared passage
                       </span>
                       <button
@@ -735,7 +735,7 @@ export function TestBuilder({
               <button
                 type="button"
                 onClick={() => addPassage(section.id)}
-                className="text-sm font-medium text-brand-gold hover:underline"
+                className="text-sm font-medium text-brand-navy underline hover:no-underline"
               >
                 + Add passage with sub-questions
               </button>

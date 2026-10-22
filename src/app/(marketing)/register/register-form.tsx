@@ -171,7 +171,7 @@ export function RegisterForm() {
           <button
             type="button"
             onClick={() => setShowPassword((v) => !v)}
-            className="absolute inset-y-0 right-0 px-3 text-xs font-medium text-brand-navy hover:text-brand-gold"
+            className="absolute inset-y-0 right-0 px-3 text-xs font-medium text-brand-navy hover:text-brand-gold-dark"
           >
             {showPassword ? "Hide" : "Show"}
           </button>
@@ -199,7 +199,7 @@ export function RegisterForm() {
           <button
             type="button"
             onClick={() => setShowPassword((v) => !v)}
-            className="absolute inset-y-0 right-0 px-3 text-xs font-medium text-brand-navy hover:text-brand-gold"
+            className="absolute inset-y-0 right-0 px-3 text-xs font-medium text-brand-navy hover:text-brand-gold-dark"
           >
             {showPassword ? "Hide" : "Show"}
           </button>
@@ -216,7 +216,7 @@ export function RegisterForm() {
 
       <p className="text-center text-sm text-brand-ink/70">
         Already have an account?{" "}
-        <Link href="/login" className="font-medium text-brand-navy hover:text-brand-gold">
+        <Link href="/login" className="font-medium text-brand-navy hover:text-brand-gold-dark">
           Log in
         </Link>
       </p>

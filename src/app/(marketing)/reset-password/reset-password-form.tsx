@@ -56,7 +56,7 @@ export function ResetPasswordForm({ token }: { token: string }) {
           <button
             type="button"
             onClick={() => setShowPassword((v) => !v)}
-            className="absolute inset-y-0 right-0 px-3 text-xs font-medium text-brand-navy hover:text-brand-gold"
+            className="absolute inset-y-0 right-0 px-3 text-xs font-medium text-brand-navy hover:text-brand-gold-dark"
           >
             {showPassword ? "Hide" : "Show"}
           </button>

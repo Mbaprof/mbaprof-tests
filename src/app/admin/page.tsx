@@ -125,7 +125,7 @@ export default async function AdminOverviewPage() {
                     <div className="flex items-center justify-between text-sm">
                       <Link
                         href={`/admin/students?exam=${encodeURIComponent(exam)}`}
-                        className="font-medium text-brand-navy hover:text-brand-gold hover:underline"
+                        className="font-medium text-brand-navy hover:text-brand-gold-dark hover:underline"
                       >
                         {exam}
                       </Link>
@@ -153,7 +153,7 @@ export default async function AdminOverviewPage() {
             </h2>
             <Link
               href="/admin/students"
-              className="text-sm font-medium text-brand-navy hover:text-brand-gold hover:underline"
+              className="text-sm font-medium text-brand-navy hover:text-brand-gold-dark hover:underline"
             >
               See all
             </Link>

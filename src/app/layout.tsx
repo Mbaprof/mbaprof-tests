@@ -1,14 +1,27 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Libre_Franklin, Montserrat, Roboto } from "next/font/google";
 import "./globals.css";
 
 import { RegisterServiceWorker } from "@/components/register-service-worker";
 
-const inter = Inter({
-  variable: "--font-inter",
+// Fonts follow the MBA Prof brand manual: Roboto for body text, Franklin Gothic
+// for headings (Libre Franklin is its closest web font) and Montserrat, the logo
+// font, for the tagline and small labels.
+const roboto = Roboto({
+  variable: "--font-roboto",
   subsets: ["latin"],
+  weight: ["400", "500", "700"],
 });
-
+const franklin = Libre_Franklin({
+  variable: "--font-franklin",
+  subsets: ["latin"],
+  weight: ["600", "700", "800", "900"],
+});
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
 export const metadata: Metadata = {
   metadataBase: new URL("https://tests.mbaprof.in"),
   title: "MBAProf Tests | MBA Entrance Exam Mock Tests",
@@ -41,7 +54,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={`${roboto.variable} ${franklin.variable} ${montserrat.variable}`}>
       <body className="antialiased bg-white text-brand-ink">
         <noscript>
           <style>{".reveal { opacity: 1 !important; transform: none !important; }"}</style>

@@ -194,7 +194,7 @@ export default async function AdminStudentsPage({
                       </a>
                     </div>
                     {s.targetExam && (
-                      <span className="shrink-0 rounded-full bg-brand-gold/15 px-2.5 py-0.5 text-xs font-semibold text-brand-gold">
+                      <span className="shrink-0 rounded-full bg-brand-gold/20 px-2.5 py-0.5 text-xs font-semibold text-brand-navy">
                         {s.targetExam}
                       </span>
                     )}
@@ -308,7 +308,7 @@ export default async function AdminStudentsPage({
                       </td>
                       <td className="whitespace-nowrap px-4 py-3">
                         {s.targetExam ? (
-                          <span className="rounded-full bg-brand-gold/15 px-2.5 py-0.5 text-xs font-semibold text-brand-gold">
+                          <span className="rounded-full bg-brand-gold/20 px-2.5 py-0.5 text-xs font-semibold text-brand-navy">
                             {s.targetExam}
                           </span>
                         ) : (

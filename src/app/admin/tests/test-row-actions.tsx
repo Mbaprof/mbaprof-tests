@@ -25,7 +25,7 @@ export function PublishToggle({
           router.refresh();
         })
       }
-      className="cursor-pointer text-brand-navy hover:text-brand-gold hover:underline disabled:opacity-50"
+      className="cursor-pointer text-brand-navy hover:text-brand-gold-dark hover:underline disabled:opacity-50"
     >
       {published ? "Unpublish" : "Publish"}
     </button>

@@ -110,7 +110,7 @@ export function TestsBrowser({
                   {test.title}
                 </h2>
                 <div className="mt-2 flex flex-wrap items-center gap-2">
-                  <span className="rounded-full bg-brand-gold/15 px-2.5 py-0.5 text-xs font-semibold text-brand-gold">
+                  <span className="rounded-full bg-brand-gold/20 px-2.5 py-0.5 text-xs font-semibold text-brand-navy">
                     {test.targetExam}
                   </span>
                   <span className="rounded-full bg-black/5 px-2.5 py-0.5 text-xs font-semibold text-brand-ink/70">

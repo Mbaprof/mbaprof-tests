@@ -240,7 +240,7 @@ export default async function AttemptResultsPage({
           <p className="text-xs uppercase tracking-wide text-brand-ink/50">
             Percentile
           </p>
-          <p className="mt-1 text-2xl font-bold text-brand-gold">
+          <p className="mt-1 text-2xl font-bold text-brand-gold-dark">
             {percentile}th
           </p>
         </div>

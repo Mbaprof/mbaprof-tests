@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   },
 };
 
-const heading = "font-[family-name:var(--font-heading)]";
+const heading = "font-heading";
 const STEPS = [
   "You get a WhatsApp confirmation with your registration reference.",
   "A counsellor calls within 24 hours to fix your batch and answer your questions.",

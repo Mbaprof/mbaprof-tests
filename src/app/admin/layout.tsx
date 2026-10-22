@@ -12,7 +12,7 @@ export default async function AdminLayout({
   const session = await requireAdmin();
 
   const navClass =
-    "text-sm font-medium text-brand-navy transition-colors hover:text-brand-gold";
+    "text-sm font-medium text-brand-navy transition-colors hover:text-brand-gold-dark";
 
   return (
     <div className="min-h-screen bg-brand-cream">

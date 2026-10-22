@@ -1,17 +1,23 @@
 @import "tailwindcss";
 @import "katex/dist/katex.min.css";
 
+/* MBA Prof brand manual: navy #0B1D2E, gold #F4B027, beige #DFD0C6, warm grey
+   #E5E2E1, cool grey #E6E7E8, charcoal #333333 (body text). */
 :root {
   --background: #ffffff;
-  --foreground: #14151a;
+  --foreground: #333333;
 
-  /* MBAProf Tests brand palette (matches mbaprof.in) */
   --color-navy: #0b1d2e;
   --color-navy-light: #16304a;
   --color-gold: #f4b027;
-  --color-gold-light: #fdc24b;
-  --color-ink: #14151a;
-  --color-cream: #fdfbf6;
+  --color-gold-light: #f9d68c; /* manual's light gold tint */
+  --color-gold-dark: #c07c08; /* manual's dark gold shade: gold-coloured text on white */
+  --color-gold-tint: #fff4e3;
+  --color-ink: #333333;
+  --color-cream: #f6f0ec; /* soft tint of the manual's beige, for page backgrounds */
+  --color-beige: #dfd0c6;
+  --color-grey-warm: #e5e2e1;
+  --color-grey-cool: #e6e7e8;
 }
 
 @theme inline {
@@ -21,15 +27,47 @@
   --color-brand-navy-light: var(--color-navy-light);
   --color-brand-gold: var(--color-gold);
   --color-brand-gold-light: var(--color-gold-light);
+  --color-brand-gold-dark: var(--color-gold-dark);
+  --color-brand-gold-tint: var(--color-gold-tint);
   --color-brand-ink: var(--color-ink);
   --color-brand-cream: var(--color-cream);
-  --font-sans: var(--font-inter);
+  --color-brand-beige: var(--color-beige);
+  --color-brand-grey: var(--color-grey-warm);
+  --color-brand-grey-cool: var(--color-grey-cool);
+
+  /* Roboto body, Franklin Gothic-style headings (Libre Franklin), Montserrat
+     for the tagline and small labels (the logo font). */
+  --font-sans: var(--font-roboto);
+  --font-heading: var(--font-franklin);
+  --font-label: var(--font-montserrat);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-roboto), Arial, Helvetica, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-franklin), var(--font-roboto), Arial, Helvetica, sans-serif;
+}
+
+/* The gold arrow flag the manual puts beside headings; use on small section labels. */
+.heading-flag {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+.heading-flag::before {
+  content: "";
+  flex: none;
+  width: 1.1rem;
+  height: 0.7rem;
+  background: var(--color-gold);
+  clip-path: polygon(0 0, 72% 0, 100% 50%, 72% 100%, 0 100%);
 }
 
 @media (prefers-reduced-motion: no-preference) {

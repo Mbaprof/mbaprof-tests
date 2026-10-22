@@ -76,7 +76,7 @@ export function QuestionSummaryTable({
         <button
           type="button"
           onClick={() => setExpanded((v) => !v)}
-          className="mt-2 self-start text-xs font-semibold text-brand-navy hover:text-brand-gold hover:underline"
+          className="mt-2 self-start text-xs font-semibold text-brand-navy hover:text-brand-gold-dark hover:underline"
         >
           {expanded ? "Show less" : `See ${remaining} more`}
         </button>

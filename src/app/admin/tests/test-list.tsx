@@ -113,7 +113,7 @@ export function TestList({ tests }: { tests: TestRow[] }) {
                 <div>
                   <p className="font-semibold text-brand-navy">{test.title}</p>
                   <div className="mt-2 flex flex-wrap items-center gap-2">
-                    <span className="rounded-full bg-brand-gold/15 px-2.5 py-0.5 text-xs font-semibold text-brand-gold">
+                    <span className="rounded-full bg-brand-gold/20 px-2.5 py-0.5 text-xs font-semibold text-brand-navy">
                       {test.targetExam}
                     </span>
                     <span className="rounded-full bg-black/5 px-2.5 py-0.5 text-xs font-semibold text-brand-ink/70">
@@ -197,7 +197,7 @@ export function TestList({ tests }: { tests: TestRow[] }) {
                     <td className="whitespace-nowrap px-4 py-3">
                       <Link
                         href={`/admin/tests/${test.id}/results`}
-                        className="text-brand-navy hover:text-brand-gold hover:underline"
+                        className="text-brand-navy hover:text-brand-gold-dark hover:underline"
                       >
                         {test.attemptCount}
                       </Link>
@@ -217,13 +217,13 @@ export function TestList({ tests }: { tests: TestRow[] }) {
                       <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
                         <Link
                           href={`/admin/tests/${test.id}/preview`}
-                          className="text-brand-navy hover:text-brand-gold hover:underline"
+                          className="text-brand-navy hover:text-brand-gold-dark hover:underline"
                         >
                           Preview
                         </Link>
                         <Link
                           href={`/admin/tests/${test.id}/edit`}
-                          className="text-brand-navy hover:text-brand-gold hover:underline"
+                          className="text-brand-navy hover:text-brand-gold-dark hover:underline"
                         >
                           Edit
                         </Link>

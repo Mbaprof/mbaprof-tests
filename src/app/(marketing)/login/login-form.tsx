@@ -54,7 +54,7 @@ export function LoginForm({
           </label>
           <Link
             href="/forgot-password"
-            className="text-xs font-medium text-brand-navy hover:text-brand-gold"
+            className="text-xs font-medium text-brand-navy hover:text-brand-gold-dark"
           >
             Forgot password?
           </Link>
@@ -71,7 +71,7 @@ export function LoginForm({
           <button
             type="button"
             onClick={() => setShowPassword((v) => !v)}
-            className="absolute inset-y-0 right-0 px-3 text-xs font-medium text-brand-navy hover:text-brand-gold"
+            className="absolute inset-y-0 right-0 px-3 text-xs font-medium text-brand-navy hover:text-brand-gold-dark"
           >
             {showPassword ? "Hide" : "Show"}
           </button>
@@ -88,7 +88,7 @@ export function LoginForm({
 
       <p className="text-center text-sm text-brand-ink/70">
         New here?{" "}
-        <Link href="/register" className="font-medium text-brand-navy hover:text-brand-gold">
+        <Link href="/register" className="font-medium text-brand-navy hover:text-brand-gold-dark">
           Create an account
         </Link>
       </p>

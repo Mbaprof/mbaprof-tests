@@ -269,7 +269,7 @@ export function ExamRunner({ data }: { data: ExamData }) {
     : [null, currentQuestion.text];
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#f4f5f7] text-sm text-brand-ink">
+    <div className="flex min-h-screen flex-col bg-brand-grey-cool text-sm text-brand-ink">
       <header className="flex items-center justify-between border-b border-black/10 bg-white px-4 py-2.5">
         <p className="font-semibold text-brand-navy">{data.testTitle}</p>
         <div className="flex items-center gap-6">

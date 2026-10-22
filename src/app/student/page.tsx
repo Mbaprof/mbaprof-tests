@@ -141,7 +141,7 @@ export default async function StudentDashboardPage({
                       <h2 className="text-lg font-semibold text-brand-navy">
                         {test.title}
                       </h2>
-                      <span className="rounded-full bg-brand-gold/15 px-2.5 py-0.5 text-xs font-semibold text-brand-gold">
+                      <span className="rounded-full bg-brand-gold/20 px-2.5 py-0.5 text-xs font-semibold text-brand-navy">
                         {test.targetExam}
                       </span>
                       <span className="rounded-full bg-black/5 px-2.5 py-0.5 text-xs font-semibold text-brand-ink/70">
@@ -177,7 +177,7 @@ export default async function StudentDashboardPage({
                         <li key={attempt.id} className="text-sm">
                           <Link
                             href={`/student/attempts/${attempt.id}/results`}
-                            className="text-brand-navy hover:text-brand-gold hover:underline"
+                            className="text-brand-navy hover:text-brand-gold-dark hover:underline"
                           >
                             Attempt {completed.length - index}: {formatMarks(attempt.score ?? 0)}/
                             {attempt.totalMarks}

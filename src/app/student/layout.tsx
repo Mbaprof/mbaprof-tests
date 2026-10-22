@@ -5,7 +5,7 @@ import { auth } from "@/auth";
 import { Logo } from "@/components/logo";
 import { signOutAction } from "@/lib/actions";
 
-const linkClass = "text-sm font-medium text-brand-navy hover:text-brand-gold";
+const linkClass = "text-sm font-medium text-brand-navy hover:text-brand-gold-dark";
 const pillClass =
   "whitespace-nowrap rounded-full bg-brand-cream px-4 py-2 text-sm font-medium text-brand-navy transition-colors hover:bg-brand-navy/10";
 

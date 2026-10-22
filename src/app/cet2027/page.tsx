@@ -24,12 +24,12 @@ export const metadata: Metadata = {
 
 // Brand palette lives in globals.css (brand-navy, brand-gold, brand-cream ...).
 // The serif headline face echoes the MBA Prof logo; body copy stays in Inter.
-const heading = "font-[family-name:var(--font-heading)]";
+const heading = "font-heading";
 const wrap = "mx-auto max-w-[1160px]";
 const PHONE = "+91 84337 47631";
 const TEL = "tel:+918433747631";
 
-const LABEL = "font-[family-name:var(--font-label)]"; // Montserrat: tagline and small labels
+const LABEL = "font-label"; // Montserrat: tagline and small labels
 const GOLD_TEXT = "text-brand-navy"; // gold is for fills and accents; text on light grounds stays navy
 const BODY = "text-[#333333]";
 const MUTED = "text-[#5f5f5f]";
