@@ -45,7 +45,7 @@ export default async function Cet2027ThankYouPage({
       <div className="mx-auto max-w-[720px]">
         <div className="mb-7">
           <Image
-            src="/logo.png"
+            src="/logo-color.png"
             alt="MBA Prof"
             width={1794}
             height={372}
