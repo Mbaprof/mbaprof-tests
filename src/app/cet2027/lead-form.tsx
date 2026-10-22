@@ -14,8 +14,8 @@ type Tracking = Partial<
 >;
 
 const field =
-  "w-full rounded-[10px] border border-[#CBD5E1] bg-white px-3.5 text-base font-medium text-[#0B1F3A] placeholder:text-[#94A3B8] focus:border-[#0B4F8A] focus:outline-none focus:ring-2 focus:ring-[#0B4F8A]/20";
-const label = "mb-1.5 block text-[13px] font-semibold text-[#334155]";
+  "w-full rounded-[10px] border border-[#d9d2bd] bg-white px-3.5 text-base font-medium text-[#0b1d2e] placeholder:text-[#a3afbc] focus:border-brand-navy focus:outline-none focus:ring-2 focus:ring-brand-gold/50";
+const label = "mb-1.5 block text-[13px] font-semibold text-[#3c4b5c]";
 const errorText = "mt-1.5 text-[13px] font-medium text-[#B91C1C]";
 
 // The "Book your introductory seat" form. Sends the sign-up to our own server,
@@ -151,8 +151,8 @@ export function LeadForm() {
         <label htmlFor="f-phone" className={label}>
           WhatsApp number
         </label>
-        <div className="flex items-stretch overflow-hidden rounded-[10px] border border-[#CBD5E1] bg-white focus-within:border-[#0B4F8A] focus-within:ring-2 focus-within:ring-[#0B4F8A]/20">
-          <span className="flex items-center border-r border-[#CBD5E1] bg-[#F1F5F9] px-3 text-[15px] font-semibold text-[#475569]">
+        <div className="flex items-stretch overflow-hidden rounded-[10px] border border-[#d9d2bd] bg-white focus-within:border-brand-navy focus-within:ring-2 focus-within:ring-brand-gold/50">
+          <span className="flex items-center border-r border-[#d9d2bd] bg-brand-cream px-3 text-[15px] font-semibold text-[#4a5a6b]">
             +91
           </span>
           <input
@@ -165,7 +165,7 @@ export function LeadForm() {
             maxLength={14}
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            className="h-[46px] min-w-0 flex-1 border-0 bg-transparent px-3.5 text-base font-medium text-[#0B1F3A] placeholder:text-[#94A3B8] focus:outline-none"
+            className="h-[46px] min-w-0 flex-1 border-0 bg-transparent px-3.5 text-base font-medium text-[#0b1d2e] placeholder:text-[#a3afbc] focus:outline-none"
             aria-invalid={Boolean(errors.phone)}
           />
         </div>
@@ -227,12 +227,12 @@ export function LeadForm() {
       </div>
 
       <fieldset className="mb-[18px] border-0 p-0">
-        <legend className="mb-2 p-0 text-[13px] font-semibold text-[#334155]">
+        <legend className="mb-2 p-0 text-[13px] font-semibold text-[#3c4b5c]">
           Choose your program
         </legend>
         <label
           htmlFor="p-basic"
-          className="mb-[9px] flex min-h-11 cursor-pointer items-center gap-[11px] rounded-[10px] border border-[#CBD5E1] px-3.5 py-[13px] has-[:checked]:border-[#0B4F8A] has-[:checked]:bg-[#F0F6FC]"
+          className="mb-[9px] flex min-h-11 cursor-pointer items-center gap-[11px] rounded-[10px] border border-[#d9d2bd] px-3.5 py-[13px] has-[:checked]:border-brand-gold has-[:checked]:bg-[#fff8e6]"
         >
           <input
             id="p-basic"
@@ -240,14 +240,14 @@ export function LeadForm() {
             name="plan"
             checked={plan === "BASIC"}
             onChange={() => setPlan("BASIC")}
-            className="h-[18px] w-[18px] flex-none accent-[#0B4F8A]"
+            className="h-[18px] w-[18px] flex-none accent-[#0b1d2e]"
           />
-          <span className="text-sm font-semibold text-[#0B1F3A]">CET Basic</span>
-          <span className="ml-auto text-sm font-bold text-[#15803D]">FREE</span>
+          <span className="text-sm font-semibold text-[#0b1d2e]">CET Basic</span>
+          <span className="ml-auto text-sm font-bold text-[#8a5a00]">FREE</span>
         </label>
         <label
           htmlFor="p-plus"
-          className="flex min-h-11 cursor-pointer items-center gap-[11px] rounded-[10px] border border-[#CBD5E1] px-3.5 py-[13px] has-[:checked]:border-[#0B4F8A] has-[:checked]:bg-[#F0F6FC]"
+          className="flex min-h-11 cursor-pointer items-center gap-[11px] rounded-[10px] border border-[#d9d2bd] px-3.5 py-[13px] has-[:checked]:border-brand-gold has-[:checked]:bg-[#fff8e6]"
         >
           <input
             id="p-plus"
@@ -255,10 +255,10 @@ export function LeadForm() {
             name="plan"
             checked={plan === "PLUS"}
             onChange={() => setPlan("PLUS")}
-            className="h-[18px] w-[18px] flex-none accent-[#0B4F8A]"
+            className="h-[18px] w-[18px] flex-none accent-[#0b1d2e]"
           />
-          <span className="text-sm font-semibold text-[#0B1F3A]">CET Plus</span>
-          <span className="ml-auto text-sm font-bold text-[#0B1F3A]">₹2,999</span>
+          <span className="text-sm font-semibold text-[#0b1d2e]">CET Plus</span>
+          <span className="ml-auto text-sm font-bold text-[#0b1d2e]">₹2,999</span>
         </label>
       </fieldset>
 
@@ -268,9 +268,9 @@ export function LeadForm() {
           type="checkbox"
           checked={consent}
           onChange={(e) => setConsent(e.target.checked)}
-          className="mt-0.5 h-[17px] w-[17px] flex-none accent-[#0B4F8A]"
+          className="mt-0.5 h-[17px] w-[17px] flex-none accent-[#0b1d2e]"
         />
-        <span className="text-[12.5px] leading-normal text-[#64748B]">
+        <span className="text-[12.5px] leading-normal text-[#66768a]">
           I agree to receive calls and WhatsApp updates from MBA Prof about CET 2027.
         </span>
       </label>
@@ -293,11 +293,11 @@ export function LeadForm() {
       <button
         type="submit"
         disabled={submitting}
-        className="flex min-h-[54px] w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#C2410C] text-base font-bold text-white transition-colors hover:bg-[#9A3412] disabled:cursor-wait disabled:opacity-70"
+        className="flex min-h-[54px] w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-brand-gold text-base font-extrabold text-brand-navy transition-colors hover:bg-brand-gold-light disabled:cursor-wait disabled:opacity-70"
       >
         {submitting ? "Reserving your seat..." : "Claim my seat"}
         {!submitting && (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0b1d2e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <line x1="5" y1="12" x2="19" y2="12" />
             <polyline points="12 5 19 12 12 19" />
           </svg>

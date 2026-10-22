@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   },
 };
 
-const heading = "font-[family-name:var(--font-jakarta)]";
+const heading = "font-[family-name:var(--font-display)] lining-nums";
 const STEPS = [
   "You get a WhatsApp confirmation with your registration reference.",
   "A counsellor calls within 24 hours to fix your batch and answer your questions.",
@@ -39,7 +39,7 @@ export default async function Cet2027ThankYouPage({
   );
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] px-6 pb-14 pt-10">
+    <div className="min-h-screen bg-brand-cream px-6 pb-14 pt-10">
       <MetaPixel pixelId={metaPixelId()} leadRef={reference ?? "unknown"} />
 
       <div className="mx-auto max-w-[720px]">
@@ -55,39 +55,39 @@ export default async function Cet2027ThankYouPage({
           />
         </div>
 
-        <div className="rounded-[20px] border border-[#E2E8F0] bg-white p-6 shadow-[0_12px_32px_rgba(11,31,58,0.08)] sm:p-9">
-          <div className="mb-[22px] flex h-[60px] w-[60px] items-center justify-center rounded-full bg-[#DCFCE7]">
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#15803D" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <div className="rounded-[20px] border-t-4 border-brand-gold bg-white p-6 shadow-[0_18px_46px_rgba(11,29,46,0.14)] sm:p-9">
+          <div className="mb-[22px] flex h-[60px] w-[60px] items-center justify-center rounded-full bg-brand-navy">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#f4b027" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <polyline points="20 6 9 17 4 12" />
             </svg>
           </div>
 
-          <h1 className={`${heading} mb-3 text-[30px] font-extrabold leading-[1.15] tracking-[-0.7px] text-[#0B1F3A] sm:text-[36px]`}>
+          <h1 className={`${heading} mb-3 text-[30px] font-bold leading-[1.15] tracking-[-0.5px] text-[#0b1d2e] sm:text-[36px]`}>
             Your seat is reserved.
           </h1>
-          <p className="mb-5 max-w-[520px] text-base leading-[1.6] text-[#475569] sm:text-[17px]">
+          <p className="mb-5 max-w-[520px] text-base leading-[1.6] text-[#4a5a6b] sm:text-[17px]">
             We have your details. A counsellor from our Navi Mumbai team will call you within 24 hours to confirm your batch and walk you through the CET 2027 plan.
           </p>
 
           {reference && (
-            <p className="mb-7 inline-flex items-center gap-2 rounded-[10px] border border-[#E2E8F0] bg-[#F8FAFC] px-3.5 py-2.5 text-sm text-[#475569]">
+            <p className="mb-7 inline-flex items-center gap-2 rounded-[10px] border border-[#efe7cf] bg-brand-cream px-3.5 py-2.5 text-sm text-[#4a5a6b]">
               Your reference
-              <strong className="text-[15px] font-bold tracking-[0.5px] text-[#0B1F3A]">{reference}</strong>
+              <strong className="text-[15px] font-bold tracking-[0.5px] text-[#0b1d2e]">{reference}</strong>
             </p>
           )}
 
-          <div className="mb-7 rounded-[14px] border border-[#E2E8F0] bg-[#F8FAFC] p-[22px]">
-            <h2 className="mb-4 text-[15px] font-bold tracking-[0.2px] text-[#0B1F3A]">What happens next</h2>
+          <div className="mb-7 rounded-[14px] border border-[#efe7cf] bg-brand-cream p-[22px]">
+            <h2 className="mb-4 text-[15px] font-bold tracking-[0.2px] text-[#0b1d2e]">What happens next</h2>
             {STEPS.map((text, i) => (
               <div key={i} className={`flex gap-[13px] ${i < STEPS.length - 1 ? "mb-3.5" : ""}`}>
-                <div className="flex h-[26px] w-[26px] flex-none items-center justify-center rounded-full bg-[#C2410C] text-[13px] font-bold text-white">
+                <div className="flex h-[26px] w-[26px] flex-none items-center justify-center rounded-full bg-brand-navy text-[13px] font-bold text-brand-gold">
                   {i + 1}
                 </div>
-                <p className="pt-[3px] text-[15px] leading-[1.55] text-[#334155]">
+                <p className="pt-[3px] text-[15px] leading-[1.55] text-[#3c4b5c]">
                   {text ?? (
                     <>
                       You receive your login, study material and class schedule before the batch begins on{" "}
-                      <strong className="font-bold text-[#0B1F3A]">14 November 2026</strong>.
+                      <strong className="font-bold text-[#0b1d2e]">14 November 2026</strong>.
                     </>
                   )}
                 </p>
@@ -109,7 +109,7 @@ export default async function Cet2027ThankYouPage({
             </a>
             <a
               href="tel:+918433747631"
-              className="inline-flex min-h-[52px] items-center justify-center rounded-xl border-[1.5px] border-[#CBD5E1] bg-white px-6 text-[15.5px] font-bold text-[#0B1F3A] no-underline hover:bg-[#F8FAFC]"
+              className="inline-flex min-h-[52px] items-center justify-center rounded-xl border-[1.5px] border-[#d9d2bd] bg-white px-6 text-[15.5px] font-bold text-brand-navy no-underline hover:bg-brand-cream"
             >
               Call +91 84337 47631
             </a>
@@ -118,30 +118,30 @@ export default async function Cet2027ThankYouPage({
 
         {/* Upgrade nudge: only for people who picked (or defaulted to) CET Basic */}
         {choseBasicOrUnknown && (
-          <div className="mt-5 flex flex-wrap items-center gap-6 rounded-[20px] bg-[#0B1F3A] p-6 sm:p-8">
+          <div className="mt-5 flex flex-wrap items-center gap-6 rounded-[20px] bg-[#0b1d2e] p-6 sm:p-8">
             <div className="min-w-0 flex-[1_1_320px]">
-              <div className="mb-3.5 inline-flex rounded-full bg-[#C2410C] px-2.5 py-[5px] text-[11px] font-bold tracking-[0.6px] text-white">
+              <div className="mb-3.5 inline-flex rounded-full bg-brand-gold px-2.5 py-[5px] text-[11px] font-extrabold tracking-[0.8px] text-brand-navy">
                 WHILE SEATS LAST
               </div>
-              <h2 className={`${heading} mb-2.5 text-[22px] font-extrabold leading-[1.2] text-white sm:text-2xl`}>
+              <h2 className={`${heading} mb-2.5 text-[22px] font-bold leading-[1.2] text-white sm:text-2xl`}>
                 Add 30 mocks and 10 masterclasses for ₹2,999
               </h2>
-              <p className="text-[15px] leading-[1.6] text-[#CBD5E1]">
+              <p className="text-[15px] leading-[1.6] text-[#c5d0dc]">
                 CET Plus adds 15 more mock CETs, 15 mocks for MAT, ATMA and CMAT, and 10 CET masterclasses by alumni of JBIMS and other top B-schools — ₹2,999 incl. GST instead of ₹12,999. Mention it on your counselling call, or upgrade now.
               </p>
             </div>
             <a
               href="/cet2027#pricing"
-              className="inline-flex min-h-[52px] flex-none items-center justify-center rounded-xl bg-white px-[26px] text-[15.5px] font-bold text-[#0B1F3A] no-underline hover:bg-[#F1F5F9]"
+              className="inline-flex min-h-[52px] flex-none items-center justify-center rounded-xl bg-brand-gold px-[26px] text-[15.5px] font-extrabold text-brand-navy no-underline hover:bg-brand-gold-light"
             >
               See CET Plus
             </a>
           </div>
         )}
 
-        <p className="mt-6 text-center text-[13px] leading-[1.6] text-[#64748B]">
+        <p className="mt-6 text-center text-[13px] leading-[1.6] text-[#66768a]">
           Didn&apos;t mean to register, or need to change a detail? Email{" "}
-          <a href="mailto:info@mbaprof.in" className="text-[#0B4F8A] hover:text-[#073659]">
+          <a href="mailto:info@mbaprof.in" className="text-brand-navy underline hover:text-[#8a5a00]">
             info@mbaprof.in
           </a>
         </p>
