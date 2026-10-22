@@ -27,7 +27,7 @@ export function StickyCta() {
       <div className="mx-auto flex max-w-[560px] items-center gap-3">
         <div className="min-w-0 flex-1 leading-tight">
           <p className="truncate text-[13px] font-bold text-white">CET Basic FREE</p>
-          <p className="truncate text-xs text-[#aebccb]">CET Plus ₹2,999 · first 200 only</p>
+          <p className="truncate text-xs text-[#c9cbce]">CET Plus ₹2,999 · first 200 only</p>
         </div>
         <a
           href="#register"

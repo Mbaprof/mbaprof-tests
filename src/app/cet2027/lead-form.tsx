@@ -14,8 +14,8 @@ type Tracking = Partial<
 >;
 
 const field =
-  "w-full rounded-[10px] border border-[#d9d2bd] bg-white px-3.5 text-base font-medium text-[#0b1d2e] placeholder:text-[#a3afbc] focus:border-brand-navy focus:outline-none focus:ring-2 focus:ring-brand-gold/50";
-const label = "mb-1.5 block text-[13px] font-semibold text-[#3c4b5c]";
+  "w-full rounded-[10px] border border-[#b09a8d] bg-white px-3.5 text-base font-medium text-[#0b1d2e] placeholder:text-[#8c8c8c] focus:border-brand-navy focus:outline-none focus:ring-2 focus:ring-brand-gold/50";
+const label = "mb-1.5 block text-[13px] font-semibold text-[#333333]";
 const errorText = "mt-1.5 text-[13px] font-medium text-[#B91C1C]";
 
 // The "Book your introductory seat" form. Sends the sign-up to our own server,
@@ -151,8 +151,8 @@ export function LeadForm() {
         <label htmlFor="f-phone" className={label}>
           WhatsApp number
         </label>
-        <div className="flex items-stretch overflow-hidden rounded-[10px] border border-[#d9d2bd] bg-white focus-within:border-brand-navy focus-within:ring-2 focus-within:ring-brand-gold/50">
-          <span className="flex items-center border-r border-[#d9d2bd] bg-brand-cream px-3 text-[15px] font-semibold text-[#4a5a6b]">
+        <div className="flex items-stretch overflow-hidden rounded-[10px] border border-[#b09a8d] bg-white focus-within:border-brand-navy focus-within:ring-2 focus-within:ring-brand-gold/50">
+          <span className="flex items-center border-r border-[#b09a8d] bg-[#f6f0ec] px-3 text-[15px] font-semibold text-[#333333]">
             +91
           </span>
           <input
@@ -165,7 +165,7 @@ export function LeadForm() {
             maxLength={14}
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            className="h-[46px] min-w-0 flex-1 border-0 bg-transparent px-3.5 text-base font-medium text-[#0b1d2e] placeholder:text-[#a3afbc] focus:outline-none"
+            className="h-[46px] min-w-0 flex-1 border-0 bg-transparent px-3.5 text-base font-medium text-[#0b1d2e] placeholder:text-[#8c8c8c] focus:outline-none"
             aria-invalid={Boolean(errors.phone)}
           />
         </div>
@@ -227,12 +227,12 @@ export function LeadForm() {
       </div>
 
       <fieldset className="mb-[18px] border-0 p-0">
-        <legend className="mb-2 p-0 text-[13px] font-semibold text-[#3c4b5c]">
+        <legend className="mb-2 p-0 text-[13px] font-semibold text-[#333333]">
           Choose your program
         </legend>
         <label
           htmlFor="p-basic"
-          className="mb-[9px] flex min-h-11 cursor-pointer items-center gap-[11px] rounded-[10px] border border-[#d9d2bd] px-3.5 py-[13px] has-[:checked]:border-brand-gold has-[:checked]:bg-[#fff8e6]"
+          className="mb-[9px] flex min-h-11 cursor-pointer items-center gap-[11px] rounded-[10px] border border-[#b09a8d] px-3.5 py-[13px] has-[:checked]:border-brand-gold has-[:checked]:bg-[#fff4e3]"
         >
           <input
             id="p-basic"
@@ -243,11 +243,11 @@ export function LeadForm() {
             className="h-[18px] w-[18px] flex-none accent-[#0b1d2e]"
           />
           <span className="text-sm font-semibold text-[#0b1d2e]">CET Basic</span>
-          <span className="ml-auto text-sm font-bold text-[#8a5a00]">FREE</span>
+          <span className="ml-auto text-sm font-bold text-brand-navy">FREE</span>
         </label>
         <label
           htmlFor="p-plus"
-          className="flex min-h-11 cursor-pointer items-center gap-[11px] rounded-[10px] border border-[#d9d2bd] px-3.5 py-[13px] has-[:checked]:border-brand-gold has-[:checked]:bg-[#fff8e6]"
+          className="flex min-h-11 cursor-pointer items-center gap-[11px] rounded-[10px] border border-[#b09a8d] px-3.5 py-[13px] has-[:checked]:border-brand-gold has-[:checked]:bg-[#fff4e3]"
         >
           <input
             id="p-plus"
@@ -270,7 +270,7 @@ export function LeadForm() {
           onChange={(e) => setConsent(e.target.checked)}
           className="mt-0.5 h-[17px] w-[17px] flex-none accent-[#0b1d2e]"
         />
-        <span className="text-[12.5px] leading-normal text-[#66768a]">
+        <span className="text-[12.5px] leading-normal text-[#5f5f5f]">
           I agree to receive calls and WhatsApp updates from MBA Prof about CET 2027.
         </span>
       </label>

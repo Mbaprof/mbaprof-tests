@@ -24,23 +24,24 @@ export const metadata: Metadata = {
 
 // Brand palette lives in globals.css (brand-navy, brand-gold, brand-cream ...).
 // The serif headline face echoes the MBA Prof logo; body copy stays in Inter.
-const heading = "font-[family-name:var(--font-display)] lining-nums";
+const heading = "font-[family-name:var(--font-heading)]";
 const wrap = "mx-auto max-w-[1160px]";
 const PHONE = "+91 84337 47631";
 const TEL = "tel:+918433747631";
 
-const GOLD_TEXT = "text-[#8a5a00]"; // gold dark enough to read on white / cream
-const BODY = "text-[#4a5a6b]";
-const MUTED = "text-[#66768a]";
-const LINE = "border-[#e9e3d1]";
+const LABEL = "font-[family-name:var(--font-label)]"; // Montserrat: tagline and small labels
+const GOLD_TEXT = "text-brand-navy"; // gold is for fills and accents; text on light grounds stays navy
+const BODY = "text-[#333333]";
+const MUTED = "text-[#5f5f5f]";
+const LINE = "border-[#dfd0c6]";
 
 // ---- small building blocks ------------------------------------------------------------
 
-function Check({ size = 20, onDark = false, className = "" }: { size?: number; onDark?: boolean; className?: string }) {
+function Check({ size = 20, className = "" }: { size?: number; className?: string }) {
   return (
     <span
       aria-hidden="true"
-      className={`inline-flex flex-none items-center justify-center rounded-full ${onDark ? "bg-brand-gold" : "bg-brand-gold/20"} ${className}`}
+      className={`inline-flex flex-none items-center justify-center rounded-full bg-brand-gold ${className}`}
       style={{ width: size, height: size }}
     >
       <svg
@@ -48,7 +49,7 @@ function Check({ size = 20, onDark = false, className = "" }: { size?: number; o
         height={Math.round(size * 0.58)}
         viewBox="0 0 24 24"
         fill="none"
-        stroke={onDark ? "#0b1d2e" : "#8a5a00"}
+        stroke="#0b1d2e"
         strokeWidth="3.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -77,8 +78,9 @@ function Icon({ children, size = 22, stroke = "#f4b027" }: { children: React.Rea
   );
 }
 
-const eyebrow = `mb-3 flex items-center gap-2.5 text-xs font-bold tracking-[1.6px] ${GOLD_TEXT} before:h-0.5 before:w-7 before:rounded-full before:bg-brand-gold`;
-const h2 = `${heading} font-bold tracking-[-0.3px] text-brand-navy`;
+// The gold arrow flag is the brand manual's heading marker.
+const eyebrow = `${LABEL} mb-3 flex items-center gap-3 text-xs font-bold tracking-[1.6px] ${GOLD_TEXT} before:h-[18px] before:w-7 before:bg-brand-gold before:[clip-path:polygon(0_0,72%_0,100%_50%,72%_100%,0_100%)]`;
+const h2 = `${heading} font-extrabold tracking-[-0.3px] text-brand-navy`;
 
 // ---- content --------------------------------------------------------------------------------
 
@@ -219,21 +221,21 @@ const FAQ = [
 
 
 function CompareCell({ cell, plus = false }: { cell: Cell; plus?: boolean }) {
-  const base = `px-5 py-3.5 text-center ${plus ? "bg-[#fff8e6]" : ""}`;
+  const base = `px-5 py-3.5 text-center ${plus ? "bg-[#fff4e3]" : ""}`;
   switch (cell.kind) {
     case "included":
       return (
         <td className={base}>
-          <span className="inline-flex items-center justify-center gap-1.5 text-[14.5px] font-semibold text-brand-navy-light">
+          <span className="inline-flex items-center justify-center gap-1.5 text-[14.5px] font-semibold text-brand-navy">
             <Check size={18} />
             Included
           </span>
         </td>
       );
     case "none":
-      return <td className={`${base} text-[15px] font-medium text-[#a3afbc]`}>Not included</td>;
+      return <td className={`${base} text-[15px] font-medium text-[#8c8c8c]`}>Not included</td>;
     case "number":
-      return <td className={`${base} ${heading} text-lg font-bold text-brand-navy`}>{cell.text}</td>;
+      return <td className={`${base} ${heading} text-lg font-extrabold text-brand-navy`}>{cell.text}</td>;
     case "strike":
       return <td className={`${base} text-[14.5px] font-medium ${MUTED} line-through`}>{cell.text}</td>;
     default:
@@ -271,17 +273,17 @@ export default function Cet2027LandingPage() {
               priority
               className="h-[42px] w-auto flex-none sm:h-[50px]"
             />
-            <div className={`hidden h-8 w-px flex-none bg-[#e9e3d1] sm:block`} />
-            <div className={`hidden max-w-[150px] text-[11px] font-semibold leading-[1.4] tracking-[0.6px] ${MUTED} sm:block`}>
+            <div className={`hidden h-8 w-px flex-none bg-[#dfd0c6] sm:block`} />
+            <div className={`${LABEL} hidden max-w-[150px] text-[11px] font-medium leading-[1.4] tracking-[0.6px] ${MUTED} sm:block`}>
               CAREER-FIRST MBA CONSULTING
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-x-[18px] gap-y-2.5">
             <a
               href={TEL}
-              className="flex min-h-11 items-center gap-[7px] text-sm font-semibold text-brand-navy no-underline hover:text-[#8a5a00]"
+              className="flex min-h-11 items-center gap-[7px] text-sm font-semibold text-brand-navy no-underline hover:text-[#c07c08]"
             >
-              <Icon size={16} stroke="#8a5a00">
+              <Icon size={16} stroke="#c07c08">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.35 1.9.66 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.31 1.85.53 2.81.66A2 2 0 0 1 22 16.92z" />
               </Icon>
               <span className="hidden sm:inline">{PHONE}</span>
@@ -302,7 +304,7 @@ export default function Cet2027LandingPage() {
         className="relative w-full overflow-hidden bg-brand-navy px-6 pb-20 pt-12 sm:pt-16"
         style={{
           backgroundImage:
-            "radial-gradient(900px 480px at 90% -10%, rgba(244,176,39,0.20), transparent 62%), radial-gradient(760px 420px at -5% 108%, rgba(36,76,112,0.7), transparent 70%)",
+            "radial-gradient(900px 480px at 90% -10%, rgba(244,176,39,0.20), transparent 62%), radial-gradient(760px 420px at -5% 108%, rgba(38,74,118,0.55), transparent 70%)",
         }}
       >
         <div className={`${wrap} flex flex-wrap items-start gap-12`}>
@@ -312,31 +314,31 @@ export default function Cet2027LandingPage() {
               MH-CET (MBA/MMS) 2027 · BATCH STARTS 14 NOVEMBER
             </div>
 
-            <h1 className={`${heading} mb-5 text-[34px] font-bold leading-[1.12] tracking-[-0.5px] text-white sm:text-[44px] lg:text-[52px] lg:leading-[1.08]`}>
+            <h1 className={`${heading} mb-5 text-[34px] font-extrabold leading-[1.12] tracking-[-0.5px] text-white sm:text-[44px] lg:text-[52px] lg:leading-[1.08]`}>
               Crack CET 2027 — then get into the right college,{" "}
               <span className="text-brand-gold">not just any college.</span>
             </h1>
 
-            <p className="mb-8 max-w-[560px] text-base leading-[1.65] text-[#c5d0dc] sm:text-lg">
+            <p className="mb-8 max-w-[560px] text-base leading-[1.65] text-[#e6e7e8] sm:text-lg">
               120+ hours of live online training with every class recorded, material built from 10 years of actual CET papers, mock CETs with one-on-one feedback, and admission guidance that runs from form-filling to the interview panel.
             </p>
 
             <div className="mb-7 flex flex-wrap gap-3.5">
               <div className="min-w-0 flex-[1_1_220px] rounded-2xl border border-white/15 bg-white/[0.06] px-5 py-[18px] backdrop-blur-sm">
-                <div className="mb-2 text-[13px] font-bold tracking-[0.6px] text-[#aebccb]">CET BASIC</div>
+                <div className="mb-2 text-[13px] font-bold tracking-[0.6px] text-[#c9cbce]">CET BASIC</div>
                 <div className="flex items-baseline gap-2.5">
-                  <span className="text-base font-medium text-[#8fa1b3] line-through">₹9,999</span>
-                  <span className={`${heading} text-[32px] font-bold leading-none text-brand-gold-light`}>FREE</span>
+                  <span className="text-base font-medium text-[#a9acb0] line-through">₹9,999</span>
+                  <span className={`${heading} text-[32px] font-extrabold leading-none text-brand-gold-light`}>FREE</span>
                 </div>
-                <div className="mt-2 text-xs font-medium text-[#aebccb]">For the first 200 students</div>
+                <div className="mt-2 text-xs font-medium text-[#c9cbce]">For the first 200 students</div>
               </div>
               <div className="min-w-0 flex-[1_1_220px] rounded-2xl border-2 border-brand-gold bg-white/10 px-[19px] py-[17px] shadow-[0_10px_30px_rgba(244,176,39,0.15)] backdrop-blur-sm">
                 <div className="mb-2 text-[13px] font-bold tracking-[0.6px] text-brand-gold">CET PLUS</div>
                 <div className="flex items-baseline gap-2.5">
-                  <span className="text-base font-medium text-[#8fa1b3] line-through">₹12,999</span>
-                  <span className={`${heading} text-[32px] font-bold leading-none text-white`}>₹2,999</span>
+                  <span className="text-base font-medium text-[#a9acb0] line-through">₹12,999</span>
+                  <span className={`${heading} text-[32px] font-extrabold leading-none text-white`}>₹2,999</span>
                 </div>
-                <div className="mt-2 text-xs font-medium text-[#aebccb]">Incl. GST · first 200 students</div>
+                <div className="mt-2 text-xs font-medium text-[#c9cbce]">Incl. GST · first 200 students</div>
               </div>
             </div>
 
@@ -344,9 +346,9 @@ export default function Cet2027LandingPage() {
               {HERO_CHIPS.map((chip) => (
                 <li
                   key={chip}
-                  className="flex items-center gap-2 rounded-full border border-white/15 bg-white/5 py-[7px] pl-2.5 pr-3.5 text-[13px] font-semibold text-[#dbe3ec]"
+                  className="flex items-center gap-2 rounded-full border border-white/15 bg-white/5 py-[7px] pl-2.5 pr-3.5 text-[13px] font-semibold text-[#e6e7e8]"
                 >
-                  <Check size={18} onDark />
+                  <Check size={18} />
                   {chip}
                 </li>
               ))}
@@ -358,19 +360,19 @@ export default function Cet2027LandingPage() {
             id="register"
             className="relative min-w-0 flex-[1_1_390px] scroll-mt-4 rounded-[20px] border-t-4 border-brand-gold bg-white p-6 shadow-[0_28px_70px_rgba(0,0,0,0.45)] sm:p-8"
           >
-            <h2 className={`${heading} mb-1.5 text-[25px] font-bold text-brand-navy`}>Book your introductory seat</h2>
+            <h2 className={`${heading} mb-1.5 text-[25px] font-extrabold text-brand-navy`}>Book your introductory seat</h2>
             <p className={`mb-4 text-sm leading-[1.55] ${MUTED}`}>
               Takes 30 seconds. A counsellor calls you within 24 hours to confirm your batch.
             </p>
 
-            <div className="mb-5 flex items-center gap-2.5 rounded-xl border border-[#efe7cf] bg-brand-cream px-3.5 py-3">
-              <Icon size={18} stroke="#8a5a00">
+            <div className="mb-5 flex items-center gap-2.5 rounded-xl border border-[#dfd0c6] bg-[#f6f0ec] px-3.5 py-3">
+              <Icon size={18} stroke="#c07c08">
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
                 <line x1="16" y1="2" x2="16" y2="6" />
                 <line x1="8" y1="2" x2="8" y2="6" />
                 <line x1="3" y1="10" x2="21" y2="10" />
               </Icon>
-              <span className="text-[13.5px] font-medium text-[#3c4b5c]">
+              <span className="text-[13.5px] font-medium text-[#333333]">
                 Batch starts <strong className="font-bold text-brand-navy">14 November 2026</strong>
               </span>
             </div>
@@ -389,7 +391,7 @@ export default function Cet2027LandingPage() {
           <div className="flex flex-wrap justify-center gap-x-3.5 gap-y-2.5">
             {COLLEGES.map((college, i) => (
               <span key={college} className="flex items-center gap-3.5">
-                <span className={`${heading} text-base font-bold text-white`}>{college}</span>
+                <span className={`${heading} text-base font-extrabold text-white`}>{college}</span>
                 {i < COLLEGES.length - 1 && (
                   <span aria-hidden="true" className="text-brand-gold/70">
                     ◆
@@ -422,10 +424,10 @@ export default function Cet2027LandingPage() {
                 </Icon>
               </div>
               <div className="min-w-0 flex-[1_1_420px]">
-                <h3 className={`${heading} mb-2.5 text-[22px] font-bold leading-[1.25] text-white sm:text-[24px]`}>
+                <h3 className={`${heading} mb-2.5 text-[22px] font-extrabold leading-[1.25] text-white sm:text-[24px]`}>
                   Course material designed from the last 10 years of actual CET papers
                 </h3>
-                <p className="text-[15.5px] leading-[1.65] text-[#c5d0dc]">
+                <p className="text-[15.5px] leading-[1.65] text-[#e6e7e8]">
                   Every module, worksheet and test is built backwards from ten years of real MH-CET question papers, so you drill the patterns that actually repeat instead of generic aptitude practice. All classes are delivered online, and every single session is available to you in recorded format.
                 </p>
               </div>
@@ -434,11 +436,11 @@ export default function Cet2027LandingPage() {
             {FEATURES.map((f) => (
               <div
                 key={f.title}
-                className={`group flex gap-4 rounded-[18px] border ${LINE} bg-brand-cream p-5 transition duration-200 hover:-translate-y-1 hover:border-brand-gold hover:bg-white hover:shadow-[0_14px_30px_rgba(11,29,46,0.10)] sm:block sm:p-6`}
+                className={`group flex gap-4 rounded-[18px] border ${LINE} bg-[#f6f0ec] p-5 transition duration-200 hover:-translate-y-1 hover:border-brand-gold hover:bg-white hover:shadow-[0_14px_30px_rgba(11,29,46,0.10)] sm:block sm:p-6`}
               >
                 <div className="flex h-12 w-12 flex-none items-center justify-center rounded-xl bg-brand-navy sm:mb-4">{f.icon}</div>
                 <div className="min-w-0">
-                  <h3 className={`${heading} mb-1.5 text-lg font-bold text-brand-navy sm:mb-2`}>{f.title}</h3>
+                  <h3 className={`${heading} mb-1.5 text-lg font-extrabold text-brand-navy sm:mb-2`}>{f.title}</h3>
                   <p className={`text-[14.5px] leading-[1.65] ${BODY}`}>{f.body}</p>
                 </div>
               </div>
@@ -448,7 +450,7 @@ export default function Cet2027LandingPage() {
       </section>
 
       {/* PRICING */}
-      <section id="pricing" className="w-full scroll-mt-4 bg-brand-cream px-6 py-20">
+      <section id="pricing" className="w-full scroll-mt-4 bg-[#f6f0ec] px-6 py-20">
         <div className={wrap}>
           <div className="mb-11 text-center">
             <p className={`${eyebrow} justify-center`}>CHOOSE YOUR PROGRAM</p>
@@ -464,18 +466,18 @@ export default function Cet2027LandingPage() {
               <div className={`mb-[18px] inline-flex self-start rounded-full bg-brand-gold/20 px-3 py-1.5 text-[11.5px] font-bold tracking-[0.8px] ${GOLD_TEXT}`}>
                 FREE FOR FIRST 200
               </div>
-              <h3 className={`${heading} mb-1.5 text-[28px] font-bold text-brand-navy`}>CET Basic</h3>
+              <h3 className={`${heading} mb-1.5 text-[28px] font-extrabold text-brand-navy`}>CET Basic</h3>
               <p className={`mb-5 text-[14.5px] leading-[1.55] ${MUTED}`}>
                 Everything you need to prepare for CET 2027 and apply with confidence.
               </p>
               <div className="mb-1 flex items-baseline gap-3">
-                <span className="text-xl font-medium text-[#a3afbc] line-through">₹9,999</span>
-                <span className={`${heading} text-[48px] font-bold leading-none tracking-[-1px] text-brand-navy`}>₹0</span>
+                <span className="text-xl font-medium text-[#8c8c8c] line-through">₹9,999</span>
+                <span className={`${heading} text-[48px] font-extrabold leading-none tracking-[-1px] text-brand-navy`}>₹0</span>
               </div>
               <p className={`mb-6 text-[13px] font-medium ${MUTED}`}>Introductory offer · no payment required</p>
               <ul className="mb-[26px] flex flex-1 list-none flex-col gap-3 p-0">
                 {BASIC_LIST.map((item) => (
-                  <li key={item} className="flex gap-[11px] text-[15px] leading-[1.5] text-[#334355]">
+                  <li key={item} className="flex gap-[11px] text-[15px] leading-[1.5] text-[#333333]">
                     <Check className="mt-[1px]" />
                     {item}
                   </li>
@@ -498,20 +500,20 @@ export default function Cet2027LandingPage() {
               <div className="mb-[18px] inline-flex self-start rounded-full bg-brand-gold px-3 py-1.5 text-[11.5px] font-extrabold tracking-[0.8px] text-brand-navy">
                 MOST CHOSEN · BEST VALUE
               </div>
-              <h3 className={`${heading} mb-1.5 text-[28px] font-bold text-white`}>CET Plus</h3>
-              <p className="mb-5 text-[14.5px] leading-[1.55] text-[#aebccb]">
+              <h3 className={`${heading} mb-1.5 text-[28px] font-extrabold text-white`}>CET Plus</h3>
+              <p className="mb-5 text-[14.5px] leading-[1.55] text-[#c9cbce]">
                 For students who want serious test practice, insider guidance, and a backup plan beyond CET.
               </p>
               <div className="mb-1 flex items-baseline gap-3">
-                <span className="text-xl font-medium text-[#8fa1b3] line-through">₹12,999</span>
-                <span className={`${heading} text-[48px] font-bold leading-none tracking-[-1px] text-brand-gold`}>₹2,999</span>
+                <span className="text-xl font-medium text-[#a9acb0] line-through">₹12,999</span>
+                <span className={`${heading} text-[48px] font-extrabold leading-none tracking-[-1px] text-brand-gold`}>₹2,999</span>
               </div>
-              <p className="mb-6 text-[13px] font-medium text-[#aebccb]">Inclusive of GST · introductory offer</p>
+              <p className="mb-6 text-[13px] font-medium text-[#c9cbce]">Inclusive of GST · introductory offer</p>
               <p className="mb-3.5 text-sm font-bold text-brand-gold-light">Everything in CET Basic, plus:</p>
               <ul className="mb-[26px] flex flex-1 list-none flex-col gap-3 p-0">
                 {PLUS_LIST.map((item, i) => (
-                  <li key={i} className="flex gap-[11px] text-[15px] leading-[1.5] text-[#dbe3ec]">
-                    <Check className="mt-[1px]" onDark />
+                  <li key={i} className="flex gap-[11px] text-[15px] leading-[1.5] text-[#e6e7e8]">
+                    <Check className="mt-[1px]" />
                     <span>
                       {item.bold && <strong className="font-bold text-white">{item.bold}</strong>}
                       {item.text}
@@ -533,7 +535,7 @@ export default function Cet2027LandingPage() {
           <div className={`mt-10 overflow-hidden rounded-[18px] border ${LINE} bg-white shadow-[0_4px_18px_rgba(11,29,46,0.05)]`}>
             <div className="overflow-x-auto">
               <table className="w-full min-w-[560px] border-collapse">
-                <caption className={`${heading} px-6 pb-1 pt-5 text-left text-[18px] font-bold text-brand-navy`}>
+                <caption className={`${heading} px-6 pb-1 pt-5 text-left text-[18px] font-extrabold text-brand-navy`}>
                   Side-by-side comparison
                 </caption>
                 <thead>
@@ -549,10 +551,10 @@ export default function Cet2027LandingPage() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="[&>tr>*]:border-b [&>tr>*]:border-[#f1ede0]">
+                <tbody className="[&>tr>*]:border-b [&>tr>*]:border-[#efe5e0]">
                   {COMPARE.map((row) => (
                     <tr key={row.label}>
-                      <th scope="row" className="px-6 py-3.5 text-left text-[14.5px] font-normal text-[#334355]">
+                      <th scope="row" className="px-6 py-3.5 text-left text-[14.5px] font-normal text-[#333333]">
                         {row.label}
                       </th>
                       <CompareCell cell={row.basic} />
@@ -563,8 +565,8 @@ export default function Cet2027LandingPage() {
                     <th scope="row" className="px-6 py-4 text-left text-[14.5px] font-bold text-brand-navy">
                       Introductory price (first 200 students)
                     </th>
-                    <td className={`${heading} px-5 py-4 text-center text-xl font-bold text-brand-navy`}>FREE</td>
-                    <td className={`${heading} bg-[#fff8e6] px-5 py-4 text-center text-xl font-bold text-brand-navy`}>₹2,999</td>
+                    <td className={`${heading} px-5 py-4 text-center text-xl font-extrabold text-brand-navy`}>FREE</td>
+                    <td className={`${heading} bg-[#fff4e3] px-5 py-4 text-center text-xl font-extrabold text-brand-navy`}>₹2,999</td>
                   </tr>
                 </tbody>
               </table>
@@ -579,18 +581,18 @@ export default function Cet2027LandingPage() {
         style={{ backgroundImage: "radial-gradient(800px 360px at 50% -20%, rgba(244,176,39,0.16), transparent 65%)" }}
       >
         <div className={wrap}>
-          <h2 className={`${heading} mb-3 text-center text-[28px] font-bold leading-[1.15] tracking-[-0.3px] text-white sm:text-[38px]`}>
+          <h2 className={`${heading} mb-3 text-center text-[28px] font-extrabold leading-[1.15] tracking-[-0.3px] text-white sm:text-[38px]`}>
             CET Plus: <span className="text-brand-gold">35 mocks</span> and 10 masterclasses before exam day
           </h2>
-          <p className="mx-auto mb-11 max-w-[620px] text-center text-[16.5px] leading-[1.65] text-[#c5d0dc]">
+          <p className="mx-auto mb-11 max-w-[620px] text-center text-[16.5px] leading-[1.65] text-[#e6e7e8]">
             Scores move when practice is measured. Every mock is followed by analysis, and the masterclasses are taught by people who sat this exam and got into the colleges you are aiming for.
           </p>
           <div className="grid grid-cols-2 gap-3.5 lg:grid-cols-4 lg:gap-[18px]">
             {MOCK_STATS.map((s) => (
               <div key={s.title} className="rounded-[18px] border border-white/10 border-t-brand-gold bg-white/[0.05] p-5 text-center sm:p-[26px] [border-top-width:3px]">
-                <div className={`${heading} text-[42px] font-bold leading-none tracking-[-1px] text-brand-gold sm:text-[52px]`}>{s.big}</div>
+                <div className={`${heading} text-[42px] font-extrabold leading-none tracking-[-1px] text-brand-gold sm:text-[52px]`}>{s.big}</div>
                 <div className="mt-3 text-sm font-semibold text-white sm:text-[15px]">{s.title}</div>
-                <div className="mt-[5px] text-[13px] text-[#aebccb]">{s.sub}</div>
+                <div className="mt-[5px] text-[13px] text-[#c9cbce]">{s.sub}</div>
               </div>
             ))}
           </div>
@@ -604,12 +606,12 @@ export default function Cet2027LandingPage() {
           <h2 className={`${h2} mb-11 text-[30px] leading-[1.15] sm:text-[40px]`}>From this form to your admission letter</h2>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {STEPS.map((step, i) => (
-              <div key={step.title} className={`relative flex gap-4 rounded-[18px] border ${LINE} bg-brand-cream p-5 sm:block sm:p-6`}>
-                <div className={`${heading} flex h-11 w-11 flex-none items-center justify-center rounded-full bg-brand-navy text-lg font-bold text-brand-gold sm:mb-4`}>
+              <div key={step.title} className={`relative flex gap-4 rounded-[18px] border ${LINE} bg-[#f6f0ec] p-5 sm:block sm:p-6`}>
+                <div className={`${heading} flex h-11 w-11 flex-none items-center justify-center rounded-full bg-brand-navy text-lg font-extrabold text-brand-gold sm:mb-4`}>
                   {i + 1}
                 </div>
                 <div className="min-w-0">
-                  <h3 className={`${heading} mb-1.5 text-lg font-bold text-brand-navy sm:mb-2`}>{step.title}</h3>
+                  <h3 className={`${heading} mb-1.5 text-lg font-extrabold text-brand-navy sm:mb-2`}>{step.title}</h3>
                   <p className={`text-[14.5px] leading-[1.65] ${BODY}`}>{step.body}</p>
                 </div>
               </div>
@@ -619,7 +621,7 @@ export default function Cet2027LandingPage() {
       </section>
 
       {/* WHY US */}
-      <section className="w-full bg-brand-cream px-6 py-20">
+      <section className="w-full bg-[#f6f0ec] px-6 py-20">
         <div className={`${wrap} flex flex-wrap gap-12`}>
           <div className="min-w-0 flex-[1_1_440px]">
             <p className={eyebrow}>WHY MBA PROF</p>
@@ -628,9 +630,9 @@ export default function Cet2027LandingPage() {
             </h2>
             {WHY.map((w) => (
               <div key={w.title} className="mb-6 flex gap-4 last:mb-0">
-                <Check size={26} onDark className="mt-0.5" />
+                <Check size={26} className="mt-0.5" />
                 <div>
-                  <h3 className={`${heading} mb-1.5 text-[18px] font-bold text-brand-navy`}>{w.title}</h3>
+                  <h3 className={`${heading} mb-1.5 text-[18px] font-extrabold text-brand-navy`}>{w.title}</h3>
                   <p className={`text-[15px] leading-[1.65] ${BODY}`}>{w.body}</p>
                 </div>
               </div>
@@ -645,7 +647,7 @@ export default function Cet2027LandingPage() {
                 <span aria-hidden="true" className={`${heading} absolute right-5 top-1 text-[72px] leading-none text-brand-gold/30`}>
                   &ldquo;
                 </span>
-                <p className="relative mb-4 pr-8 text-[15.5px] leading-[1.7] text-[#334355]">{q.quote}</p>
+                <p className="relative mb-4 pr-8 text-[15.5px] leading-[1.7] text-[#333333]">{q.quote}</p>
                 <footer className="text-sm font-semibold text-brand-navy">
                   {q.who}
                   <span className={`mt-[3px] block text-[13px] font-normal ${MUTED}`}>{q.role}</span>
@@ -668,10 +670,10 @@ export default function Cet2027LandingPage() {
               <details
                 key={item.q}
                 open={i === 0}
-                className={`group rounded-2xl border ${LINE} bg-brand-cream px-5 transition-colors open:border-brand-gold/60 open:bg-white`}
+                className={`group rounded-2xl border ${LINE} bg-[#f6f0ec] px-5 transition-colors open:border-brand-gold/60 open:bg-white`}
               >
                 <summary className="flex min-h-[56px] cursor-pointer list-none items-center justify-between gap-4 py-3 [&::-webkit-details-marker]:hidden">
-                  <h3 className={`${heading} text-[17.5px] font-bold text-brand-navy`}>{item.q}</h3>
+                  <h3 className={`${heading} text-[17.5px] font-extrabold text-brand-navy`}>{item.q}</h3>
                   <span
                     aria-hidden="true"
                     className="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-brand-navy text-lg font-bold leading-none text-brand-gold transition-transform duration-200 group-open:rotate-45"
@@ -692,10 +694,10 @@ export default function Cet2027LandingPage() {
         style={{ backgroundImage: "radial-gradient(700px 340px at 50% 120%, rgba(244,176,39,0.28), transparent 65%)" }}
       >
         <div className="mx-auto max-w-[780px] text-center">
-          <h2 className={`${heading} mb-4 text-[30px] font-bold leading-[1.15] tracking-[-0.3px] text-white sm:text-[40px]`}>
+          <h2 className={`${heading} mb-4 text-[30px] font-extrabold leading-[1.15] tracking-[-0.3px] text-white sm:text-[40px]`}>
             Batch starts 14 November. <span className="text-brand-gold">200 seats</span>, then prices go back up.
           </h2>
-          <p className="mb-8 text-[17px] leading-[1.65] text-[#c5d0dc]">
+          <p className="mb-8 text-[17px] leading-[1.65] text-[#e6e7e8]">
             CET Basic at ₹0 instead of ₹9,999. CET Plus at ₹2,999 instead of ₹12,999. Hold your seat before the counter runs out.
           </p>
           <div className="flex flex-wrap justify-center gap-3.5">
@@ -716,46 +718,51 @@ export default function Cet2027LandingPage() {
       </section>
 
       {/* FOOTER */}
-      <footer className="w-full bg-[#07131f] px-6 pb-28 pt-12 lg:pb-8">
+      <footer className="w-full border-t border-brand-gold/30 bg-brand-navy px-6 pb-28 pt-12 lg:pb-8">
         <div className={wrap}>
           <div className="flex flex-wrap justify-between gap-8 border-b border-white/10 pb-8">
             <div className="min-w-0 flex-[1_1_280px]">
-              <div className={`${heading} mb-2.5 text-2xl font-bold text-white`}>
-                MBA <span className="text-brand-gold">Prof</span>
-              </div>
-              <p className="max-w-[320px] text-sm leading-[1.65] text-[#8fa1b3]">
+              <Image
+                src="/logo-white.png"
+                alt="MBA Prof"
+                width={1794}
+                height={372}
+                sizes="220px"
+                className="mb-3.5 h-10 w-auto"
+              />
+              <p className={`${LABEL} max-w-[320px] text-sm font-normal leading-[1.65] text-[#a9acb0]`}>
                 India&apos;s most affordable MBA entrance learning platform.
               </p>
             </div>
             <div className="min-w-0 flex-[1_1_240px]">
               <div className="mb-3 text-[13px] font-bold tracking-[0.8px] text-brand-gold">GET IN TOUCH</div>
-              <p className="mb-2 text-sm leading-[1.65] text-[#8fa1b3]">
+              <p className="mb-2 text-sm leading-[1.65] text-[#a9acb0]">
                 1st Floor, Plot No. 149, Sector 12, Juhu Nagar Road, Vashi, Navi Mumbai 400703
               </p>
-              <p className="text-sm leading-[1.9] text-[#8fa1b3]">
-                <a href="mailto:info@mbaprof.in" className="text-[#8fa1b3] no-underline hover:text-white">
+              <p className="text-sm leading-[1.9] text-[#a9acb0]">
+                <a href="mailto:info@mbaprof.in" className="text-[#a9acb0] no-underline hover:text-white">
                   info@mbaprof.in
                 </a>
                 <br />
-                <a href={TEL} className="text-[#8fa1b3] no-underline hover:text-white">
+                <a href={TEL} className="text-[#a9acb0] no-underline hover:text-white">
                   {PHONE}
                 </a>{" "}
                 ·{" "}
-                <a href="tel:+918291181713" className="text-[#8fa1b3] no-underline hover:text-white">
+                <a href="tel:+918291181713" className="text-[#a9acb0] no-underline hover:text-white">
                   +91 82911 81713
                 </a>
               </p>
             </div>
             <div className="min-w-0 flex-[0_1_220px]">
               <div className="mb-3 text-[13px] font-bold tracking-[0.8px] text-brand-gold">PROGRAM</div>
-              <p className="text-sm leading-[1.9] text-[#8fa1b3]">
+              <p className="text-sm leading-[1.9] text-[#a9acb0]">
                 CET Basic — free for first 200
                 <br />
                 CET Plus — ₹2,999 incl. GST
               </p>
             </div>
           </div>
-          <p className="mt-6 text-[12.5px] leading-[1.7] text-[#66798c]">
+          <p className="mt-6 text-[12.5px] leading-[1.7] text-[#9a9da1]">
             CET 2027 refers to the MH-CET (MBA/MMS) entrance examination. MBA Prof is an independent training and admission consulting provider and is not affiliated with the State Common Entrance Test Cell, Government of Maharashtra. Introductory pricing is limited to the first 200 registrations and may be withdrawn at any time. © 2026 MBA Prof. All rights reserved.
           </p>
         </div>
