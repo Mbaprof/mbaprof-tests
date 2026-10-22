@@ -27,6 +27,7 @@ export function BatchForm({
   const [startTime, setStartTime] = useState(initial?.startTime ?? "19:00");
   const [durationMinutes, setDurationMinutes] = useState(initial?.durationMinutes ?? 120);
   const [active, setActive] = useState(initial?.active ?? true);
+  const [personalLinks, setPersonalLinks] = useState(initial?.personalLinks ?? false);
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -50,6 +51,7 @@ export function BatchForm({
         startTime,
         durationMinutes,
         active,
+        personalLinks,
       };
       const result = batchId
         ? await updateBatch(batchId, payload)
@@ -187,6 +189,26 @@ export function BatchForm({
           Batch is active
         </label>
       </div>
+
+      <label className="flex items-start gap-3 rounded-lg border border-black/10 bg-brand-cream/50 p-4 text-sm text-brand-ink">
+        <input
+          type="checkbox"
+          checked={personalLinks}
+          onChange={(e) => setPersonalLinks(e.target.checked)}
+          className="mt-0.5 h-4 w-4 shrink-0 accent-brand-navy"
+        />
+        <span>
+          <span className="font-semibold text-brand-navy">
+            Give each student a personal Zoom link (recommended)
+          </span>
+          <span className="mt-1 block text-brand-ink/70">
+            Each student joins with a link made just for them, so a shared link
+            can&apos;t let outsiders in and Zoom shows exactly who joined. Needs
+            the Zoom connection and Registration turned on for this meeting.
+            See the &quot;Personal Zoom links&quot; section below after saving.
+          </span>
+        </span>
+      </label>
 
       <div className="flex justify-end">
         <button

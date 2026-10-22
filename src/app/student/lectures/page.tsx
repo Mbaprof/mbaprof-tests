@@ -160,6 +160,13 @@ export default async function LecturesPage({
         </a>
       </div>
 
+      {sp.notice === "link-error" && (
+        <p className="mt-6 rounded-md bg-red-50 px-4 py-3 text-sm text-red-800">
+          We couldn&apos;t prepare your personal class link just now. Please press Join again in
+          a moment, and tell us if it keeps happening.
+        </p>
+      )}
+
       {sp.notice === "not-open" && (
         <p className="mt-6 rounded-md bg-amber-50 px-4 py-3 text-sm text-amber-800">
           The class isn&apos;t open yet. Joining unlocks 15 minutes before it starts.
@@ -193,7 +200,7 @@ export default async function LecturesPage({
               >
                 Join class on Zoom
               </a>
-              {batch.zoomPasscode && (
+              {batch.zoomPasscode && !batch.personalLinks && (
                 <span className="flex items-center gap-2 text-sm text-white/90">
                   Passcode if asked: <strong>{batch.zoomPasscode}</strong>
                   <CopyButton text={batch.zoomPasscode} onDark />
@@ -201,7 +208,9 @@ export default async function LecturesPage({
               )}
             </div>
             <p className="mt-3 text-xs text-white/60">
-              It opens in the Zoom app or your browser. Please join with your own name.
+              {batch.personalLinks
+                ? "This is your personal link, made just for you. Please don't share it - it won't work for anyone else while you are in class."
+                : "It opens in the Zoom app or your browser. Please join with your own name."}
             </p>
           </div>
         ) : current ? (

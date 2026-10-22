@@ -16,11 +16,14 @@ import {
   type BatchInput,
 } from "@/lib/lectures";
 import { prisma } from "@/lib/prisma";
+import { zoomApiConfigured } from "@/lib/zoom-api";
+import { meetingIdFromJoinUrl } from "@/lib/zoom-webhook";
 
 import { BatchForm } from "../batch-form";
 import {
   DeleteBatchButton,
   OverridesPanel,
+  PersonalLinksPanel,
   RecordingsPanel,
   TopicsPanel,
   type LectureItem,
@@ -57,7 +60,7 @@ export default async function AdminBatchPage({
   const today = todayIst();
   const lookback = addDays(today, -21);
 
-  const [batch, overrides, lectures, joins] = await Promise.all([
+  const [batch, overrides, lectures, joins, readyLinks] = await Promise.all([
     prisma.batch.findUnique({
       where: { id },
       include: { _count: { select: { students: true } } },
@@ -76,6 +79,7 @@ export default async function AdminBatchPage({
       orderBy: { joinedAt: "asc" },
       select: { classDate: true, user: { select: { name: true } } },
     }),
+    prisma.batchRegistration.count({ where: { batchId: id } }),
   ]);
 
   if (!batch) notFound();
@@ -89,6 +93,7 @@ export default async function AdminBatchPage({
     startTime: batch.startTime,
     durationMinutes: batch.durationMinutes,
     active: batch.active,
+    personalLinks: batch.personalLinks,
   };
 
   const overrideItems: OverrideItem[] = overrides
@@ -179,6 +184,20 @@ export default async function AdminBatchPage({
       <div className="mt-6">
         <BatchForm batchId={batch.id} initial={initial} />
       </div>
+
+      <Section
+        title="Personal Zoom links"
+        hint="Each student joins with a link made just for them. Shared links can't let outsiders in, and Zoom shows exactly who joined."
+      >
+        <PersonalLinksPanel
+          batchId={batch.id}
+          enabled={batch.personalLinks}
+          configured={zoomApiConfigured()}
+          hasMeetingId={meetingIdFromJoinUrl(batch.zoomJoinUrl) !== null}
+          ready={readyLinks}
+          total={batch._count.students}
+        />
+      </Section>
 
       <Section
         title="Cancel or change a day"

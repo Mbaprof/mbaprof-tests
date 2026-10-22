@@ -11,7 +11,9 @@ import {
   deleteOverride,
   saveLecture,
   saveOverride,
+  prepareLinks,
   saveTopics,
+  testPersonalLink,
 } from "./actions";
 
 const inputClass =
@@ -519,6 +521,142 @@ export function TopicsPanel({ batchId, rows }: { batchId: string; rows: TopicRow
         </button>
       </div>
       {error && <p className="text-sm text-red-700">{error}</p>}
+    </div>
+  );
+}
+
+// ---- Personal Zoom links ---------------------------------------------------------------
+
+export function PersonalLinksPanel({
+  batchId,
+  enabled,
+  configured,
+  hasMeetingId,
+  ready,
+  total,
+}: {
+  batchId: string;
+  enabled: boolean;
+  configured: boolean;
+  hasMeetingId: boolean;
+  ready: number;
+  total: number;
+}) {
+  const router = useRouter();
+  const [busy, setBusy] = useState<"prepare" | "test" | null>(null);
+  const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null);
+  const [progress, setProgress] = useState<string | null>(null);
+
+  async function runPrepare() {
+    setBusy("prepare");
+    setMessage(null);
+    let made = 0;
+    let failedTotal = 0;
+    try {
+      for (let round = 0; round < 40; round++) {
+        const r = await prepareLinks(batchId);
+        made += r.processed;
+        failedTotal += r.failed;
+        setProgress(`${made} links created, ${r.remaining} to go...`);
+        if (r.error) {
+          setMessage({ ok: false, text: r.error });
+          break;
+        }
+        if (r.remaining === 0) {
+          setMessage({ ok: failedTotal === 0, text: failedTotal === 0 ? `All done. ${made} new link${made === 1 ? "" : "s"} created.` : `${made} created, ${failedTotal} failed. Press the button again to retry those.` });
+          break;
+        }
+        if (r.processed === 0) {
+          setMessage({ ok: false, text: "Some students could not get a link. Press the button again to retry." });
+          break;
+        }
+      }
+    } catch {
+      setMessage({ ok: false, text: "Something went wrong. Please try again." });
+    }
+    setProgress(null);
+    setBusy(null);
+    router.refresh();
+  }
+
+  async function runTest() {
+    setBusy("test");
+    setMessage(null);
+    try {
+      const r = await testPersonalLink(batchId);
+      setMessage({ ok: r.ok, text: r.message });
+    } catch {
+      setMessage({ ok: false, text: "Something went wrong. Please try again." });
+    }
+    setBusy(null);
+  }
+
+  return (
+    <div className="space-y-4">
+      {!enabled && (
+        <p className="rounded-md bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          Personal links are <strong>off</strong> for this batch, so students use the shared
+          Zoom link. Turn on &quot;Give each student a personal Zoom link&quot; above and save.
+        </p>
+      )}
+      {!configured && (
+        <p className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-800">
+          The Zoom connection isn&apos;t set up on the server yet (needs ZOOM_ACCOUNT_ID,
+          ZOOM_CLIENT_ID and ZOOM_CLIENT_SECRET). Until then, turn personal links off or
+          students will not be able to join.
+        </p>
+      )}
+      {!hasMeetingId && (
+        <p className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-800">
+          The Zoom link saved for this batch has no meeting number, so personal links can&apos;t
+          be created. Paste the full meeting link (it contains /j/ and a long number).
+        </p>
+      )}
+
+      <p className="text-sm text-brand-ink/80">
+        Personal links ready: <strong>{ready}</strong> of <strong>{total}</strong> students.
+        Students who don&apos;t have one yet get theirs automatically the first time they press
+        Join.
+      </p>
+
+      <div className="flex flex-wrap gap-3">
+        <button
+          type="button"
+          disabled={busy !== null || !configured || !hasMeetingId}
+          onClick={runPrepare}
+          className="cursor-pointer rounded-md bg-brand-navy px-4 py-2 text-sm font-semibold text-white hover:bg-brand-navy-light disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {busy === "prepare" ? "Creating links..." : "Create links for all students now"}
+        </button>
+        <button
+          type="button"
+          disabled={busy !== null || !configured || !hasMeetingId}
+          onClick={runTest}
+          className="cursor-pointer rounded-md border border-brand-navy/20 px-4 py-2 text-sm font-semibold text-brand-navy hover:bg-brand-navy hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {busy === "test" ? "Testing..." : "Test the Zoom connection"}
+        </button>
+      </div>
+      {progress && <p className="text-sm text-brand-ink/70">{progress}</p>}
+      {message && (
+        <p className={`rounded-md px-4 py-3 text-sm ${message.ok ? "bg-green-50 text-green-800" : "bg-red-50 text-red-800"}`}>
+          {message.text}
+        </p>
+      )}
+
+      <details className="rounded-lg border border-black/10 p-4 text-sm text-brand-ink/80">
+        <summary className="cursor-pointer font-medium text-brand-navy">
+          Zoom settings this needs (one-time)
+        </summary>
+        <ol className="mt-3 list-decimal space-y-1.5 pl-5">
+          <li>In Zoom, edit this batch&apos;s recurring meeting and set <strong>Registration</strong> to <strong>Required</strong>.</li>
+          <li>Choose <strong>Attendees register once and can attend any of the occurrences</strong>.</li>
+          <li>Set approval to <strong>Automatically approve</strong>.</li>
+          <li>Under registration options turn <strong>off</strong> &quot;Allow attendees to join from multiple devices&quot; so a shared link only works for one device at a time.</li>
+          <li>Turn off Zoom&apos;s confirmation emails to registrants if you don&apos;t want students to get one.</li>
+          <li>Then press <strong>Test the Zoom connection</strong> above.</li>
+        </ol>
+      </details>
     </div>
   );
 }

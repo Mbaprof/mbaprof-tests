@@ -15,30 +15,31 @@ datasource db {
 // schema ports cleanly to Postgres later without touching this file.
 
 model User {
-  id           String        @id @default(cuid())
-  name         String
-  email        String        @unique
-  passwordHash String
-  role         String        @default("STUDENT")
+  id                  String               @id @default(cuid())
+  name                String
+  email               String               @unique
+  passwordHash        String
+  role                String               @default("STUDENT")
   // Manually toggled by an admin for now (see /admin/users); set
   // automatically once a payment gateway is wired up. Grants access to
   // tests where Test.isFreePreview is false.
-  isPremium    Boolean       @default(false)
+  isPremium           Boolean              @default(false)
   // Student profile fields — required at signup for STUDENT accounts
   // (enforced in app validation), left null for seeded ADMIN accounts.
-  phone        String?
-  college      String?
-  course       String?
-  targetExam   String?
-  createdAt    DateTime      @default(now())
-  testsCreated Test[]        @relation("TestCreatedBy")
-  attempts     TestAttempt[]
+  phone               String?
+  college             String?
+  course              String?
+  targetExam          String?
+  createdAt           DateTime             @default(now())
+  testsCreated        Test[]               @relation("TestCreatedBy")
+  attempts            TestAttempt[]
   passwordResetTokens PasswordResetToken[]
   // The class batch this student belongs to (set by an admin). Decides which
   // live classes and recordings they see. Null = not placed in a batch yet.
-  batchId      String?
-  batch        Batch?        @relation(fields: [batchId], references: [id], onDelete: SetNull)
-  lectureJoins LectureJoin[]
+  batchId             String?
+  batch               Batch?               @relation(fields: [batchId], references: [id], onDelete: SetNull)
+  lectureJoins        LectureJoin[]
+  zoomRegistrations   BatchRegistration[]
 
   @@index([batchId])
 }
@@ -130,14 +131,14 @@ model Question {
 }
 
 model Option {
-  id         String     @id @default(cuid())
+  id         String   @id @default(cuid())
   questionId String
-  question   Question   @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
   text       String
   imageUrl   String?
-  isCorrect  Boolean    @default(false)
+  isCorrect  Boolean  @default(false)
   order      Int
-  answers    Answer[]   @relation("SelectedOption")
+  answers    Answer[] @relation("SelectedOption")
 }
 
 model TestAttempt {
@@ -176,7 +177,7 @@ model Answer {
 // nobody has to create a meeting per day. Times are IST.
 
 model Batch {
-  id              String          @id @default(cuid())
+  id              String              @id @default(cuid())
   name            String
   targetExam      String
   zoomJoinUrl     String
@@ -185,10 +186,14 @@ model Batch {
   days            Int[]
   // "HH:mm" in IST, and how long the class lasts.
   startTime       String
-  durationMinutes Int             @default(120)
-  active          Boolean         @default(true)
-  createdAt       DateTime        @default(now())
+  durationMinutes Int                 @default(120)
+  active          Boolean             @default(true)
+  // When on, each student gets their own Zoom registration link instead of
+  // the shared meeting link (needs Registration enabled on the Zoom meeting).
+  personalLinks   Boolean             @default(false)
+  createdAt       DateTime            @default(now())
   students        User[]
+  registrations   BatchRegistration[]
   lectures        Lecture[]
   overrides       ClassOverride[]
   joins           LectureJoin[]
@@ -244,4 +249,22 @@ model LectureJoin {
 
   @@unique([userId, batchId, classDate])
   @@index([batchId, classDate])
+}
+
+// A student's personal Zoom join link for their batch's meeting (Zoom
+// "registrant"). Created the first time they join, or in bulk by an admin.
+// The link is personal: it identifies the student in Zoom's reports and can be
+// cancelled on its own, so it must never be shown to anyone else.
+model BatchRegistration {
+  id               String   @id @default(cuid())
+  batchId          String
+  batch            Batch    @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  userId           String
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  zoomRegistrantId String
+  joinUrl          String
+  createdAt        DateTime @default(now())
+
+  @@unique([userId, batchId])
+  @@index([batchId])
 }

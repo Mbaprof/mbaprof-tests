@@ -216,6 +216,7 @@ export const batchSchema = z.object({
   startTime: hhmm,
   durationMinutes: z.coerce.number().int().min(15, "At least 15 minutes").max(480),
   active: z.boolean(),
+  personalLinks: z.boolean(),
 });
 export type BatchInput = z.infer<typeof batchSchema>;
 
