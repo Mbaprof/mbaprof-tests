@@ -78,11 +78,7 @@ export default async function AdminLeadsPage({
         <div>
           <h1 className="text-2xl font-bold text-brand-navy">Leads</h1>
           <p className="mt-1 text-sm text-brand-ink/60">
-            People who registered on the CET 2027 page (
-            <a href="/cet2027" target="_blank" rel="noopener noreferrer" className="font-medium text-brand-navy hover:underline">
-              tests.mbaprof.in/cet2027
-            </a>
-            ), newest first.
+            People who registered through a campaign page, newest first.
           </p>
         </div>
         <a
