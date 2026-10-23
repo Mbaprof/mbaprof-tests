@@ -1,27 +1,32 @@
 import type { Metadata, Viewport } from "next";
-import { Libre_Franklin, Montserrat, Roboto } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
 import { RegisterServiceWorker } from "@/components/register-service-worker";
 
 // Fonts follow the MBA Prof brand manual: Roboto for body text, Franklin Gothic
 // for headings (Libre Franklin is its closest web font) and Montserrat, the logo
-// font, for the tagline and small labels.
-const roboto = Roboto({
+// font, for the tagline and small labels. The files are bundled in src/app/fonts
+// (SIL Open Font License) so the build never depends on reaching Google Fonts.
+const roboto = localFont({
+  src: "./fonts/roboto-latin-wght-normal.woff2",
   variable: "--font-roboto",
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  weight: "100 900",
+  display: "swap",
 });
-const franklin = Libre_Franklin({
+const franklin = localFont({
+  src: "./fonts/libre-franklin-latin-wght-normal.woff2",
   variable: "--font-franklin",
-  subsets: ["latin"],
-  weight: ["600", "700", "800", "900"],
+  weight: "100 900",
+  display: "swap",
 });
-const montserrat = Montserrat({
+const montserrat = localFont({
+  src: "./fonts/montserrat-latin-wght-normal.woff2",
   variable: "--font-montserrat",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: "100 900",
+  display: "swap",
 });
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://tests.mbaprof.in"),
   title: "MBAProf Tests | MBA Entrance Exam Mock Tests",
