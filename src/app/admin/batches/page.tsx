@@ -11,13 +11,16 @@ import {
   todayIst,
   joinState,
 } from "@/lib/lectures";
+import { ENROLL_BATCH_SETTING, ENROLL_CODE } from "@/lib/enroll";
 import { prisma } from "@/lib/prisma";
+
+import { EnrollBatchSelect } from "./enroll-batch-select";
 
 export const metadata: Metadata = { title: "Batches | MBAProf Tests" };
 
 export default async function AdminBatchesPage() {
   const today = todayIst();
-  const [batches, overrides] = await Promise.all([
+  const [batches, overrides, enrollSetting, enrolledBasic, plusWithCode] = await Promise.all([
     prisma.batch.findMany({
       orderBy: [{ active: "desc" }, { createdAt: "asc" }],
       include: { _count: { select: { students: true, lectures: true } } },
@@ -25,7 +28,12 @@ export default async function AdminBatchesPage() {
     prisma.classOverride.findMany({
       where: { classDate: { gte: new Date(`${today}T00:00:00Z`) } },
     }),
+    prisma.setting.findUnique({ where: { key: ENROLL_BATCH_SETTING } }),
+    prisma.lead.count({ where: { code: ENROLL_CODE, plan: "BASIC", stage: "ENROLLED" } }),
+    prisma.lead.count({ where: { code: ENROLL_CODE, plan: "PLUS" } }),
   ]);
+  const activeBatches = batches.filter((b) => b.active).map((b) => ({ id: b.id, name: b.name }));
+  const enrollBatchId = activeBatches.some((b) => b.id === enrollSetting?.value) ? enrollSetting!.value : "";
 
   const rows = batches.map((batch) => {
     const mine = overrides.filter((o) => o.batchId === batch.id);
@@ -51,6 +59,21 @@ export default async function AdminBatchesPage() {
         >
           + New batch
         </Link>
+      </div>
+
+      <div className="mt-6 rounded-xl border border-black/5 bg-white p-5">
+        <label htmlFor="enroll-batch" className="font-semibold text-brand-navy">
+          CET Basic enrollments join
+        </label>
+        <p className="mb-3 mt-1 text-sm text-brand-ink/60">
+          Students who enroll in CET Basic with code {ENROLL_CODE} on the enroll page get their login at
+          once and are placed in this batch.
+        </p>
+        <EnrollBatchSelect batches={activeBatches} current={enrollBatchId} />
+        <p className="mt-3 text-xs text-brand-ink/60">
+          So far: {enrolledBasic} CET Basic enrolled · {plusWithCode} CET Plus lead{plusWithCode === 1 ? "" : "s"} with
+          the code (see Leads)
+        </p>
       </div>
 
       {rows.length === 0 ? (

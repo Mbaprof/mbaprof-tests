@@ -286,6 +286,8 @@ model Lead {
   currentStatus String?
   // BASIC | PLUS
   plan          String   @default("BASIC")
+  // Enrollment code typed on the enroll page (e.g. FIRST200), if any
+  code          String?
   consent       Boolean  @default(true)
   // NEW | CONTACTED | ENROLLED | NOT_INTERESTED (set by the team)
   stage         String   @default("NEW")
@@ -305,4 +307,12 @@ model Lead {
   @@index([phone])
   @@index([createdAt])
   @@index([stage])
+}
+
+// Small site-wide settings an admin can change, stored as key/value text.
+// "enroll.cetBasicBatchId" = the batch new CET Basic enrollments are placed in.
+model Setting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
 }

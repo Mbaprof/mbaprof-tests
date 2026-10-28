@@ -50,6 +50,7 @@ export type SavedLead = {
   city: string | null;
   currentStatus: string | null;
   plan: string;
+  code: string | null;
   utmSource: string | null;
   utmMedium: string | null;
   utmCampaign: string | null;
@@ -60,7 +61,10 @@ export type SavedLead = {
 // the existing lead instead of creating a duplicate, and keeps its reference.
 export async function saveLead(
   data: LeadData,
-  userAgent: string | null
+  userAgent: string | null,
+  // From the enroll page: the code typed (if any) and, for a CET Basic
+  // enrollment that created an account, stage ENROLLED.
+  extra: { code?: string; stage?: string } = {}
 ): Promise<SavedLead> {
   const phone = normalizePhone(data.phone) as string;
   const since = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000);
@@ -79,6 +83,8 @@ export async function saveLead(
         city: data.city ?? existing.city,
         currentStatus: data.currentStatus ?? existing.currentStatus,
         plan: data.plan,
+        code: extra.code ?? existing.code,
+        stage: extra.stage ?? existing.stage,
         consent: true,
         submissions: { increment: 1 },
       },
@@ -98,6 +104,8 @@ export async function saveLead(
           city: data.city,
           currentStatus: data.currentStatus,
           plan: data.plan,
+          code: extra.code,
+          stage: extra.stage,
           consent: true,
           utmSource: data.utmSource,
           utmMedium: data.utmMedium,

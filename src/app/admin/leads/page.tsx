@@ -239,6 +239,7 @@ export default async function AdminLeadsPage({
                       >
                         {planLabel(l.plan)}
                       </span>
+                      {l.code && <p className="mt-1 text-xs text-brand-ink/50">Code {l.code}</p>}
                       {l.submissions > 1 && (
                         <p className="mt-1 text-xs text-brand-ink/50">Submitted {l.submissions}×</p>
                       )}

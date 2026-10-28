@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { getAdminSession } from "@/lib/admin";
+import { ENROLL_BATCH_SETTING } from "@/lib/enroll";
 import {
   batchSchema,
   isValidYmd,
@@ -402,4 +403,30 @@ export async function testPersonalLink(
     ok: true,
     message: "Working. Zoom created a personal link for you (and it was cancelled again, nothing is left over).",
   };
+}
+
+// ---- Enrollment ---------------------------------------------------------------------
+
+// Which batch students who enroll in CET Basic from the enroll page are placed
+// in. An empty id clears it (they are then created without a batch).
+export async function setEnrollBatch(batchId: string): Promise<ActionState> {
+  await requireAdminUser();
+  try {
+    if (!batchId) {
+      await prisma.setting.deleteMany({ where: { key: ENROLL_BATCH_SETTING } });
+      return { ok: true };
+    }
+    const batch = await prisma.batch.findUnique({ where: { id: batchId }, select: { active: true } });
+    if (!batch) return { error: "That batch no longer exists." };
+    if (!batch.active) return { error: "Switch the batch to Active first." };
+    await prisma.setting.upsert({
+      where: { key: ENROLL_BATCH_SETTING },
+      create: { key: ENROLL_BATCH_SETTING, value: batchId },
+      update: { value: batchId },
+    });
+    return { ok: true };
+  } catch (error) {
+    console.error("Failed to save enrollment batch:", error);
+    return { error: "Could not save. Please try again." };
+  }
 }
