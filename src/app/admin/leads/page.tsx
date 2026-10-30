@@ -104,7 +104,7 @@ export default async function AdminLeadsPage({
         ))}
       </div>
 
-      <form method="get" className="mt-4 flex flex-wrap items-end gap-3 rounded-xl border border-black/5 bg-white p-4">
+      <form method="get" className="mt-4 flex flex-wrap items-end gap-3 rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)] p-4">
         {filters.stage && <input type="hidden" name="stage" value={filters.stage} />}
         <div className="w-full flex-1 sm:min-w-[14rem]">
           <label htmlFor="q" className="block text-xs font-medium text-brand-ink/70">
@@ -151,7 +151,7 @@ export default async function AdminLeadsPage({
           {filtered ? "No leads match these filters." : "No one has registered on the CET 2027 page yet."}
         </div>
       ) : (
-        <div className="mt-6 overflow-hidden rounded-xl border border-black/5 bg-white">
+        <div className="mt-6 overflow-hidden rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)]">
           {/* Phones: one card per lead */}
           <ul className="divide-y divide-black/5 md:hidden">
             {leads.map((l) => (

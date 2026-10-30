@@ -91,7 +91,7 @@ export default async function PreviewTestPage({
                           />
                         </div>
                       )}
-                      <div className="rounded-xl border border-black/5 bg-white p-5">
+                      <div className="rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)] p-5">
                         <div className="flex items-start justify-between gap-4">
                           <div className="text-sm font-medium text-brand-ink">
                             <span>Q{index + 1}. </span>

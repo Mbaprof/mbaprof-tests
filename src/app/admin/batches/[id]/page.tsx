@@ -43,7 +43,7 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="mt-8 rounded-xl border border-black/5 bg-white p-5 sm:p-6">
+    <section className="mt-8 rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)] p-5 sm:p-6">
       <h2 className="text-base font-semibold text-brand-navy">{title}</h2>
       {hint && <p className="mt-1 text-sm text-brand-ink/60">{hint}</p>}
       <div className="mt-4">{children}</div>

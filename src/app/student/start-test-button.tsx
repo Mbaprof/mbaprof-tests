@@ -9,7 +9,7 @@ export function StartTestButton({ label }: { label: string }) {
     <button
       type="submit"
       disabled={pending}
-      className="rounded-md bg-brand-navy px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-navy-light disabled:cursor-wait disabled:opacity-70"
+      className="inline-flex min-h-11 w-full cursor-pointer items-center justify-center rounded-lg bg-brand-navy px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-brand-navy-light disabled:cursor-wait disabled:opacity-70"
     >
       {pending ? (
         <span className="flex items-center gap-2">

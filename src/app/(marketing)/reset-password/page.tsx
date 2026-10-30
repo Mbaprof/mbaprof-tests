@@ -1,9 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { AuthShell } from "@/components/auth-shell";
+
 import { ResetPasswordForm } from "./reset-password-form";
 
 export const metadata: Metadata = { title: "Reset password | MBAProf Tests" };
+
+const POINTS = [
+  "Pick a strong password you will remember",
+  "You will be asked to sign in again afterwards",
+  "Your tests and results stay exactly as they were",
+];
 
 export default async function ResetPasswordPage({
   searchParams,
@@ -13,7 +21,14 @@ export default async function ResetPasswordPage({
   const { token } = await searchParams;
 
   return (
-    <div className="mx-auto flex min-h-[70vh] max-w-md flex-col justify-center px-4 py-16 sm:px-6">
+    <AuthShell
+      headline={
+        <>
+          Choose a <span className="text-brand-gold">new password.</span>
+        </>
+      }
+      points={POINTS}
+    >
       <h1 className="text-2xl font-bold text-brand-navy">Reset your password</h1>
       {token ? (
         <>
@@ -36,6 +51,6 @@ export default async function ResetPasswordPage({
           .
         </p>
       )}
-    </div>
+    </AuthShell>
   );
 }

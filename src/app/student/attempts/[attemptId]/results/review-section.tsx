@@ -77,7 +77,7 @@ export function ReviewSection({ attemptId, questionCount }: { attemptId: string;
       <h2 className="text-lg font-semibold text-brand-navy">Answer review</h2>
 
       {status === "idle" && (
-        <div className="mt-4 rounded-xl border border-black/5 bg-white p-6 text-center">
+        <div className="mt-4 rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)] p-6 text-center">
           <p className="text-sm text-brand-ink/70">
             See every question with the correct answer, your answer and the explanation.
           </p>
@@ -92,7 +92,7 @@ export function ReviewSection({ attemptId, questionCount }: { attemptId: string;
       )}
 
       {status === "loading" && (
-        <p role="status" className="mt-4 rounded-xl border border-black/5 bg-white p-6 text-center text-sm text-brand-ink/60">
+        <p role="status" className="mt-4 rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)] p-6 text-center text-sm text-brand-ink/60">
           Loading your answer review...
         </p>
       )}
@@ -129,7 +129,7 @@ export function ReviewSection({ attemptId, questionCount }: { attemptId: string;
                     <MathText text={question.passage.text} className="text-sm text-brand-ink/80" />
                   </div>
                 )}
-                <div id={`q-${question.id}`} className="scroll-mt-24 rounded-xl border border-black/5 bg-white p-5">
+                <div id={`q-${question.id}`} className="scroll-mt-24 rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)] p-5">
                   <div className="flex items-start justify-between gap-4">
                     <div className="text-sm font-medium text-brand-ink">
                       <span>Q{question.index + 1}. </span>

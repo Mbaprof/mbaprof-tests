@@ -220,46 +220,53 @@ export default async function AttemptResultsPage({
 
   return (
     <div>
-      <Link href="/student" className="text-sm text-brand-navy hover:underline">
+      <Link href="/student" className="text-sm font-medium text-brand-navy hover:underline">
         ← Back to dashboard
       </Link>
-      <h1 className="mt-2 text-2xl font-bold text-brand-navy">{test.title}</h1>
-      <p className="mt-1 text-sm text-brand-ink/60">
-        Submitted {attempt.submittedAt?.toLocaleString()}
-      </p>
 
-      {/* Overview */}
-      <div className="mt-6 grid gap-4 sm:grid-cols-3">
-        <div className="rounded-xl border border-black/5 bg-white p-5">
-          <p className="text-xs uppercase tracking-wide text-brand-ink/50">Score</p>
-          <p className="mt-1 text-2xl font-bold text-brand-navy">
-            {formatMarks(attempt.score ?? 0)} / {attempt.totalMarks}
-          </p>
+      {/* Result summary */}
+      <section
+        className="mt-3 overflow-hidden rounded-2xl bg-brand-navy p-6 text-white shadow-[0_12px_32px_rgba(11,29,46,0.18)] sm:p-8"
+        style={{
+          backgroundImage:
+            "radial-gradient(520px 260px at 100% 0%, rgba(244,176,39,0.22), transparent 65%), radial-gradient(420px 240px at 0% 120%, rgba(38,74,118,0.55), transparent 70%)",
+        }}
+      >
+        <p className="heading-flag text-xs font-bold uppercase tracking-[0.14em] text-brand-gold-light">
+          Your result
+        </p>
+        <h1 className="mt-3 text-balance text-2xl font-extrabold leading-tight sm:text-3xl">{test.title}</h1>
+        <p className="mt-1 text-sm text-brand-grey-cool">
+          Submitted {attempt.submittedAt?.toLocaleString()}
+        </p>
+
+        <div className="mt-6 grid grid-cols-3 gap-2 sm:gap-3">
+          <div className="rounded-xl border border-white/10 bg-white/[0.07] p-3 sm:p-5">
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-brand-grey-cool sm:text-xs">Score</p>
+            <p className="mt-1 text-2xl font-extrabold leading-none sm:text-3xl text-brand-gold">
+              {formatMarks(attempt.score ?? 0)}
+              <span className="text-sm font-bold text-white/70 sm:text-lg"> / {attempt.totalMarks}</span>
+            </p>
+          </div>
+          <div className="rounded-xl border border-white/10 bg-white/[0.07] p-3 sm:p-5">
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-brand-grey-cool sm:text-xs">Percentile</p>
+            <p className="mt-1 text-2xl font-extrabold leading-none sm:text-3xl text-white">{percentile}th</p>
+          </div>
+          <div className="rounded-xl border border-white/10 bg-white/[0.07] p-3 sm:p-5">
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-brand-grey-cool sm:text-xs">Accuracy</p>
+            <p className="mt-1 text-2xl font-extrabold leading-none sm:text-3xl text-white">
+              {allQuestions.length > 0
+                ? Math.round(
+                    (sectionStats.reduce((s, sec) => s + sec.correctCount, 0) /
+                      allQuestions.length) *
+                      100
+                  )
+                : 0}
+              %
+            </p>
+          </div>
         </div>
-        <div className="rounded-xl border border-black/5 bg-white p-5">
-          <p className="text-xs uppercase tracking-wide text-brand-ink/50">
-            Percentile
-          </p>
-          <p className="mt-1 text-2xl font-bold text-brand-gold-dark">
-            {percentile}th
-          </p>
-        </div>
-        <div className="rounded-xl border border-black/5 bg-white p-5">
-          <p className="text-xs uppercase tracking-wide text-brand-ink/50">
-            Accuracy
-          </p>
-          <p className="mt-1 text-2xl font-bold text-brand-navy">
-            {allQuestions.length > 0
-              ? Math.round(
-                  (sectionStats.reduce((s, sec) => s + sec.correctCount, 0) /
-                    allQuestions.length) *
-                    100
-                )
-              : 0}
-            %
-          </p>
-        </div>
-      </div>
+      </section>
 
       {marking && (
         <p className="mt-3 text-xs text-brand-ink/60">
@@ -291,7 +298,7 @@ export default async function AttemptResultsPage({
           {sectionsWithAccuracy.map((s) => (
             <div
               key={s.id}
-              className="rounded-xl border border-black/5 bg-white p-5"
+              className="rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)] p-5"
             >
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <p className="font-medium text-brand-navy">{s.name}</p>
@@ -343,7 +350,7 @@ export default async function AttemptResultsPage({
           <p className="mt-1 text-sm text-brand-ink/60">
             Topics where your accuracy fell below 60%.
           </p>
-          <div className="mt-4 overflow-x-auto rounded-xl border border-black/5 bg-white">
+          <div className="mt-4 overflow-x-auto rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)]">
             <table className="w-full min-w-[420px] text-left text-sm">
               <thead className="border-b border-black/5 bg-brand-cream/60 text-xs uppercase tracking-wide text-brand-ink/50">
                 <tr>
@@ -377,7 +384,7 @@ export default async function AttemptResultsPage({
           Ranked by score among everyone who has taken this test
           {myRank ? ` - you're ranked #${myRank} of ${leaderboardCount}.` : "."}
         </p>
-        <div className="mt-4 overflow-x-auto rounded-xl border border-black/5 bg-white">
+        <div className="mt-4 overflow-x-auto rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)]">
           <table className="w-full min-w-[380px] text-left text-sm">
             <thead className="border-b border-black/5 bg-brand-cream/60 text-xs uppercase tracking-wide text-brand-ink/50">
               <tr>

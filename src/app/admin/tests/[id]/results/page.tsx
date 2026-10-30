@@ -47,7 +47,7 @@ export default async function TestResultsPage({
       </p>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
-        <div className="rounded-xl border border-black/5 bg-white p-5">
+        <div className="rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)] p-5">
           <p className="text-xs uppercase tracking-wide text-brand-ink/50">
             Attempts
           </p>
@@ -55,13 +55,13 @@ export default async function TestResultsPage({
             {test.attempts.length}
           </p>
         </div>
-        <div className="rounded-xl border border-black/5 bg-white p-5">
+        <div className="rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)] p-5">
           <p className="text-xs uppercase tracking-wide text-brand-ink/50">
             Average score
           </p>
           <p className="mt-1 text-2xl font-bold text-brand-navy">{formatMarks(average)}</p>
         </div>
-        <div className="rounded-xl border border-black/5 bg-white p-5">
+        <div className="rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)] p-5">
           <p className="text-xs uppercase tracking-wide text-brand-ink/50">
             Highest score
           </p>
@@ -74,7 +74,7 @@ export default async function TestResultsPage({
           No students have completed this test yet.
         </div>
       ) : (
-        <div className="mt-8 overflow-hidden rounded-xl border border-black/5 bg-white">
+        <div className="mt-8 overflow-hidden rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)]">
           <ul className="divide-y divide-black/5 md:hidden">
             {test.attempts.map((attempt, index) => {
               const scoreValue = attempt.score ?? 0;

@@ -61,7 +61,7 @@ export default async function AdminBatchesPage() {
         </Link>
       </div>
 
-      <div className="mt-6 rounded-xl border border-black/5 bg-white p-5">
+      <div className="mt-6 rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)] p-5">
         <label htmlFor="enroll-batch" className="font-semibold text-brand-navy">
           CET Basic enrollments join
         </label>
@@ -92,7 +92,7 @@ export default async function AdminBatchesPage() {
             <Link
               key={batch.id}
               href={`/admin/batches/${batch.id}`}
-              className="block rounded-xl border border-black/5 bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-brand-navy/15 hover:shadow-md"
+              className="block rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)] p-5 transition-all hover:-translate-y-0.5 hover:border-brand-navy/15 hover:shadow-md"
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">

@@ -103,10 +103,10 @@ export function TestsBrowser({
           {visibleTests.map((test) => (
             <div
               key={test.id}
-              className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-black/5 bg-white p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-navy/15 hover:shadow-md"
+              className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-black/5 border-l-4 border-l-brand-gold bg-white p-5 shadow-[0_2px_10px_rgba(11,29,46,0.05)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(11,29,46,0.12)] sm:p-6"
             >
               <div className="min-w-0 flex-1">
-                <h2 className="text-lg font-semibold text-brand-navy">
+                <h2 className="text-lg font-extrabold text-brand-navy">
                   {test.title}
                 </h2>
                 <div className="mt-2 flex flex-wrap items-center gap-2">
@@ -131,7 +131,7 @@ export function TestsBrowser({
               {!isAuthenticated ? (
                 <Link
                   href="/register"
-                  className="shrink-0 rounded-md bg-brand-navy px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-navy-light"
+                  className="inline-flex min-h-11 shrink-0 items-center rounded-lg bg-brand-navy px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-brand-navy-light"
                 >
                   Get started free
                 </Link>

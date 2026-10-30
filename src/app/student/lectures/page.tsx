@@ -174,7 +174,7 @@ export default async function LecturesPage({
       )}
 
       {/* Next / live class */}
-      <section className="mt-6 overflow-hidden rounded-xl border border-black/5 bg-white">
+      <section className="mt-6 overflow-hidden rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)]">
         {current && currentState === "open" ? (
           <div className="bg-brand-navy p-5 text-white sm:p-6">
             <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-brand-gold-light">
@@ -263,7 +263,7 @@ export default async function LecturesPage({
         {week.length === 0 ? (
           <p className="mt-3 text-sm text-brand-ink/60">No classes this week.</p>
         ) : (
-          <ul className="mt-3 divide-y divide-black/5 overflow-hidden rounded-xl border border-black/5 bg-white">
+          <ul className="mt-3 divide-y divide-black/5 overflow-hidden rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)]">
             {week.map((s) => (
               <li
                 key={s.date}
@@ -329,7 +329,7 @@ export default async function LecturesPage({
             {q ? "No recordings match that search." : "Recordings will appear here after each class."}
           </div>
         ) : (
-          <ul className="mt-3 divide-y divide-black/5 overflow-hidden rounded-xl border border-black/5 bg-white">
+          <ul className="mt-3 divide-y divide-black/5 overflow-hidden rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)]">
             {recordings.map((r) => (
               <li key={r.id} className="flex flex-wrap items-center justify-between gap-3 px-4 py-4">
                 <div className="min-w-0">

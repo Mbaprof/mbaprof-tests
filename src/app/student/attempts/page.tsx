@@ -36,7 +36,7 @@ export default async function AttemptedTestsPage() {
           You haven&apos;t submitted any tests yet.
         </div>
       ) : (
-        <div className="mt-8 overflow-hidden rounded-xl border border-black/5 bg-white">
+        <div className="mt-8 overflow-hidden rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)]">
           <ul className="divide-y divide-black/5">
             {attempts.map((attempt) => (
               <li key={attempt.id}>

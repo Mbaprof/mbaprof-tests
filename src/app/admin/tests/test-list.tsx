@@ -106,7 +106,7 @@ export function TestList({ tests }: { tests: TestRow[] }) {
           </Link>
         </div>
       ) : (
-        <div className="mt-6 overflow-hidden rounded-xl border border-black/5 bg-white">
+        <div className="mt-6 overflow-hidden rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)]">
           <ul className="divide-y divide-black/5 md:hidden">
             {visibleTests.map((test) => (
               <li key={test.id} className="space-y-3 p-4">

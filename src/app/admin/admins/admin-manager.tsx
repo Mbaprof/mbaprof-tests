@@ -64,7 +64,7 @@ export function AddAdmin() {
   }
 
   return (
-    <div className="rounded-xl border border-black/5 bg-white p-5">
+    <div className="rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)] p-5">
       <h2 className="text-lg font-bold text-brand-navy">Add an admin</h2>
       <p className="mt-1 text-sm text-brand-ink/60">
         The person must already have registered an account. Enter the email they used.

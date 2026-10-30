@@ -83,3 +83,28 @@ h4 {
     transform: translateY(0);
   }
 }
+
+/* Small site-wide polish. In the base layer, so any utility class still wins. */
+@layer base {
+  ::selection {
+    background: rgba(244, 176, 39, 0.35);
+  }
+
+  button:not(:disabled),
+  [role="button"],
+  summary {
+    cursor: pointer;
+  }
+
+  /* Visible focus for keyboard users on anything that has no ring of its own. */
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}

@@ -62,7 +62,7 @@ export function BatchForm({
   }
 
   return (
-    <div className="space-y-5 rounded-xl border border-black/5 bg-white p-5 sm:p-6">
+    <div className="space-y-5 rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)] p-5 sm:p-6">
       {error && (
         <p className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
       )}

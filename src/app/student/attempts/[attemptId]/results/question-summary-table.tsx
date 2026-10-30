@@ -34,7 +34,7 @@ export function QuestionSummaryTable({
           {rows.length}
         </span>
       </h3>
-      <div className="mt-3 flex-1 rounded-xl border border-black/5 bg-white">
+      <div className="mt-3 flex-1 rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)]">
         {rows.length === 0 ? (
           <p className="p-4 text-sm text-brand-ink/50">{emptyMessage}</p>
         ) : (

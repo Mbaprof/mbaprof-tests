@@ -28,19 +28,29 @@ export default async function TestsPage() {
   }));
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
-      <p className="heading-flag text-xs font-semibold uppercase tracking-wide text-brand-navy">
-        Mock Tests
-      </p>
-      <h1 className="mt-2 text-3xl font-bold text-brand-navy sm:text-4xl">
-        Pick your exam. Start practicing.
-      </h1>
-      <p className="mt-3 max-w-2xl text-brand-ink/70">
-        Every mock and sectional test on MBAProf Tests, filterable by
-        entrance exam - pick yours from the dropdown below.
-      </p>
+    <div>
+      <section
+        className="bg-brand-navy px-4 py-14 text-white sm:px-6 sm:py-16"
+        style={{
+          backgroundImage:
+            "radial-gradient(640px 300px at 90% -20%, rgba(244,176,39,0.22), transparent 65%), radial-gradient(520px 260px at -5% 120%, rgba(38,74,118,0.55), transparent 70%)",
+        }}
+      >
+        <div className="mx-auto max-w-5xl">
+          <p className="heading-flag text-xs font-bold uppercase tracking-[0.14em] text-brand-gold-light">
+            Mock Tests
+          </p>
+          <h1 className="mt-3 max-w-2xl text-balance text-3xl font-extrabold leading-tight sm:text-4xl">
+            Pick your exam. <span className="text-brand-gold">Start practicing.</span>
+          </h1>
+          <p className="mt-3 max-w-2xl text-brand-grey-cool">
+            Every mock and sectional test on MBAProf Tests, filterable by
+            entrance exam - pick yours from the dropdown below.
+          </p>
+        </div>
+      </section>
 
-      <div className="mt-10">
+      <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-12">
         <TestsBrowser tests={testSummaries} isAuthenticated={!!session?.user} />
       </div>
     </div>

@@ -90,7 +90,7 @@ export default async function AdminStudentsPage({
 
       <form
         method="get"
-        className="mt-6 flex flex-wrap items-end gap-3 rounded-xl border border-black/5 bg-white p-4"
+        className="mt-6 flex flex-wrap items-end gap-3 rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)] p-4"
       >
         <div className="w-full flex-1 sm:min-w-[14rem]">
           <label htmlFor="q" className="block text-xs font-medium text-brand-ink/70">
@@ -167,7 +167,7 @@ export default async function AdminStudentsPage({
       ) : (
         <form
           action={assignStudentsToBatch}
-          className="mt-6 overflow-hidden rounded-xl border border-black/5 bg-white"
+          className="mt-6 overflow-hidden rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)]"
         >
           <input type="hidden" name="returnTo" value={`/admin/students${qs({ page })}`} />
           <BulkAssignBar batches={batches} />

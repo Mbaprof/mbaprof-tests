@@ -67,7 +67,7 @@ export default async function AdminOverviewPage() {
     <div>
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-brand-navy">Overview</h1>
+          <h1 className="text-2xl font-extrabold text-brand-navy">Overview</h1>
           <p className="mt-1 text-sm text-brand-ink/60">
             How many students have joined and how they are using the tests.
           </p>
@@ -92,7 +92,7 @@ export default async function AdminOverviewPage() {
         {cards.map((card) => (
           <div
             key={card.label}
-            className="rounded-xl border border-black/5 bg-white p-4 sm:p-5"
+            className="rounded-2xl border border-black/5 border-t-4 border-t-brand-gold bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)] p-4 sm:p-5"
           >
             <p className="text-xs font-semibold uppercase tracking-wide text-brand-ink/50">
               {card.label}
@@ -106,7 +106,7 @@ export default async function AdminOverviewPage() {
       </div>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-5">
-        <section className="rounded-xl border border-black/5 bg-white p-6 lg:col-span-2">
+        <section className="rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)] p-6 lg:col-span-2">
           <h2 className="text-base font-semibold text-brand-navy">
             Students by target exam
           </h2>
@@ -146,7 +146,7 @@ export default async function AdminOverviewPage() {
           )}
         </section>
 
-        <section className="rounded-xl border border-black/5 bg-white p-6 lg:col-span-3">
+        <section className="rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)] p-6 lg:col-span-3">
           <div className="flex items-center justify-between">
             <h2 className="text-base font-semibold text-brand-navy">
               Latest sign-ups

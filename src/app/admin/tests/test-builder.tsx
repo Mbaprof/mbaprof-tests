@@ -448,7 +448,7 @@ export function TestBuilder({
         </p>
       )}
 
-      <div className="rounded-xl border border-black/5 bg-white p-6 space-y-4">
+      <div className="rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)] p-6 space-y-4">
         <h2 className="text-lg font-semibold text-brand-navy">Test details</h2>
 
         <div>
@@ -534,7 +534,7 @@ export function TestBuilder({
         return (
           <div
             key={section.id}
-            className="rounded-xl border border-black/5 bg-white p-6 space-y-6"
+            className="rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)] p-6 space-y-6"
           >
             <div className="flex items-center justify-between gap-4">
               <input

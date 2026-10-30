@@ -34,7 +34,7 @@ export default async function AdminsPage() {
             return (
               <li
                 key={admin.id}
-                className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-black/5 bg-white p-4"
+                className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)] p-4"
               >
                 <div className="min-w-0">
                   <p className="flex flex-wrap items-center gap-2 font-semibold text-brand-navy">

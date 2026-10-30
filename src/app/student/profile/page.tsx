@@ -26,7 +26,7 @@ export default async function StudentProfilePage() {
         Keep your details up to date - your target exam controls which tests you see.
       </p>
 
-      <div className="mt-8 max-w-lg rounded-xl border border-black/5 bg-white p-6">
+      <div className="mt-8 max-w-lg rounded-2xl border border-black/5 bg-white shadow-[0_2px_10px_rgba(11,29,46,0.05)] p-6">
         <ProfileForm
           initial={{
             name: student?.name ?? "",
